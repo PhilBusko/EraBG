@@ -1,0 +1,245 @@
+
+{% extends "base_nav.html" %}
+{% load utility_ttags %}
+{% load staticfiles %}
+
+
+{% block content %}
+
+
+<div id="title_section" class="row">
+    <div class="col-xs-12 format_center">
+        <div class="inner_margin1 frame_header">
+            <span class="font_title">Headquarters</span>
+        </div>
+    </div>
+</div>
+
+
+<div id="decks_section" class="row">
+    
+    <div class="col-xs-12">
+        <div class="display_table">
+            <div class="display_row">
+                <div class="display_cellM">
+                    <div class="inner_margin1 frame_header" style="margin-right: 0px;">
+                        <span class="font_section">My Decks</span>
+                    </div>
+                </div>
+                <div class="display_cellT" style="width: 100%;">
+                    <div class="display_block frame_header format_separator">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="display: none;">{% ctrl_status "decks" %}</div>
+    </div>
+    
+    <div class="col-xs-12 col-sm-6 col-lg-4">
+        <div class="display_block inner_margin1 outer_padding2 frame_entry">
+
+            <div id="table_group">
+                {% ctrl_label "chs" "Your Decks" "font_strong" %}
+                {% ctrl_table "decks" %}
+            </div>
+
+            <div id="choose_group">
+                {% ctrl_label "chs" "Choose Your Deck" "font_strong" %}
+                {% ctrl_select "kingdom" "Kingdom" %}
+                <div class="format_center">
+                    {% ctrl_button "saveDeck" "Save Deck" %} 
+                    {% ctrl_label "userMsg" %}
+                </div>
+            </div>
+
+            <br>
+            <div class="display_block">
+                {% ctrl_listing "deckCnt" "Decks Unlocked" %} 
+            </div>
+            {% ctrl_listing "kingdomCnt" "Total Kingdoms" %}
+
+        </div>
+    </div>
+
+    <div class="col-xs-12 col-sm-6 col-lg-4">
+        <div class="display_block inner_margin1 outer_padding2 frame_entry">
+
+            {% ctrl_label "chs" "Campaign Progress" "font_strong" %}
+
+            <div class="display_block">
+                {% ctrl_listing "camp1" "Normal" %} 
+            </div>
+            <div class="display_block">
+                {% ctrl_listing "camp2" "Hard" %} 
+            </div>
+            <div class="display_block">
+                {% ctrl_listing "camp3" "Nightmare" %} 
+            </div>
+ 
+        </div>
+    </div>
+    
+</div>
+
+
+<div id="arena_section" class="row">
+    
+    <div class="col-xs-12">
+        <div class="display_table">
+            <div class="display_row">
+                <div class="display_cellM">
+                    <div class="inner_margin1 frame_header" style="margin-right: 0px;">
+                        <span class="font_section">Arena</span>
+                    </div>
+                </div>
+                <div class="display_cellT" style="width: 100%;">
+                    <div class="display_block frame_header format_separator">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="display: none;">{% ctrl_status "decks" %}</div>
+    </div>
+    
+    <div class="col-xs-12 col-sm-6 col-lg-4">
+        <div class="display_block inner_margin1 outer_padding2 frame_entry">
+
+            {% ctrl_label "chs" "My Record" "font_strong" %}
+
+        </div>
+    </div>
+    
+</div>
+
+
+<div id="tourney_section" class="row">
+    
+    <div class="col-xs-12">
+        <div class="display_table">
+            <div class="display_row">
+                <div class="display_cellM">
+                    <div class="inner_margin1 frame_header" style="margin-right: 0px;">
+                        <span class="font_section">Tournaments</span>
+                    </div>
+                </div>
+                <div class="display_cellT" style="width: 100%;">
+                    <div class="display_block frame_header format_separator">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="display: none;">{% ctrl_status "decks" %}</div>
+    </div>
+    
+    <div class="col-xs-12 col-sm-6 col-lg-4">
+        <div class="display_block inner_margin1 outer_padding2 frame_entry">
+
+            {% ctrl_label "chs" "My Record" "font_strong" %}
+
+        </div>
+    </div>
+    
+</div>
+
+
+<script>
+
+
+$(document).ready(function()
+{      
+    $('body').css('cursor', 'wait');
+    
+    var authUser = ( '{{ user.is_authenticated }}' == "True" ? true : false );      
+    
+    var kingdoms = $.parseJSON('{{ kingdoms | escapejs }}');        
+    var userDecks = $.parseJSON('{{ userDecks | escapejs }}');      
+
+    if (authUser && userDecks && userDecks.data.length > 0)
+    {
+        $('#table_group').show();
+        $('#choose_group').hide();
+
+        var fullT = JSONtoFullTable(userDecks.data);
+        SetDataTable('#decks_table', fullT, userDecks.colFmt);
+    }
+    else if (authUser)
+    {
+        $('#table_group').hide();
+        $('#choose_group').show();
+
+        $.each(kingdoms, function(key, value) {
+            $("#kingdom_select").append($('<option>', {value : key }).text(value));
+        });
+        
+        $('#saveDeck_button').click(function() {
+            SaveDeck();
+        });
+    }
+    else 
+    {
+        $('#table_group').hide();
+        $('#choose_group').show();
+
+        $.each(kingdoms, function(key, value) {
+            $("#kingdom_select").append($('<option>', {value : key }).text(value));
+        });
+        
+        $('#saveDeck_button').hide();
+        $('#userMsg_label').show();
+        $('#userMsg_label').text("* Decks are for registered users. *");
+    }
+
+    $('#deckCnt_listing').text(userDecks.data.length );
+    $('#kingdomCnt_listing').text(kingdoms.length);
+
+
+    //
+    $('body').css('cursor', 'default');
+});
+
+
+function DisableForm()
+{
+    $('#_select').prop('disabled', true);
+    $('body').css('cursor', 'wait');
+}
+
+function EnableForm()
+{
+    $('#_select').prop('disabled', false);
+    $('body').css('cursor', 'default');    
+}
+
+function SaveDeck()
+{    
+    var kingdom = $('#kingdom_select option:selected').text();
+
+    DisableForm();
+    
+    $.ajax({
+        type: 'POST',
+        url: '{% url "members_jx" "save_deck" %}',
+        data: {'kingdom': kingdom,},
+        success: function(p_data) {     cl(p_data);
+            
+            window.location.reload(false);
+            
+        }, 
+        error: function(p_err) {
+            ErrorToStatus(p_err.responseText, "SaveDeck()", '#error_status');
+        },
+        complete: function() {
+            EnableForm();
+        }
+    });
+}
+
+
+</script>
+
+{% endblock content %}
+
+
+
+
+

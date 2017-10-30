@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+
+{% load staticfiles %}
+{% load utility_ttags %}
+
+
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap: The above 3 meta tags *must* come first in the head -->
+    
+    <script src=" /static/jQuery/jquery-3.2.1.min.js"></script>
+    <link   href="/static/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src=" /static/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <link   href="/static/bootstrap-extra/navbar-fixed-side.css" rel="stylesheet">
+    <link   href="/static/bootstrap-extra/bootstrap-xl-xxl.css" rel="stylesheet">
+    
+    <script src=" /static/jquery-ui-1.12.1/jquery-ui.min.js"></script>
+    <link   href="/static/jquery-ui-1.12.1/jquery-ui.min.css" rel="stylesheet" />
+    <link   href="/static/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    
+    <!-- Bootstrap: put custom css after bootstrap.css so custom styles override -->
+    <link   href="/static/style.css?{% now 'U' %}" rel="stylesheet" /> 
+    <script src=" /static/utility.js?{% now 'U' %}"></script>
+
+    <link rel="icon" href="/static/graphics/era_logo.png" type="image/x-icon"/>
+    <title>EraBG Online</title>
+    
+    {% block extra_head %}
+    {% endblock %}
+</head>
+
+
+<style>
+
+
+.content_fixed {
+    position: fixed;
+    z-index: -10;
+    width: 100%;
+    height: 100%;
+    
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;    
+}
+
+
+</style>
+
+
+<body class="font_default" style="" >
+    
+    <div id="content_area" class="col-xs-12" style="">
+        
+        <div id="content_block" class="content_fixed" 
+            style="background-image: url(/static/graphics/bkgd_default.png);">
+        </div>
+        
+        <div class="display_block outer_padding1" style="">
+            
+            {% block content %}
+            <div class="row">
+                <div class="inner_margin1">
+                    No content included.
+                </div>
+            </div>
+            {% endblock content %}
+            <div class="row" style="min-height: 60px;">
+                {% ctrl_status "error" %}            
+            </div>
+        </div>
+        
+    </div>
+
+    <div id="dialog_holder" comment="used by auth dialogs"></div>
+
+    <canvas id="card_canvas" class="display_canvas" style="display: none;"></canvas>
+    
+    <div id="error_dialog" title="Error">
+        <div class="format_full format_center" style="padding: 10px 4px;">
+            {% ctrl_label "errorMsg" %} 
+        </div>
+        <div class="display_table format_full">
+            <div class="display_row">
+                <div class="display_cellM format_center" style="width: 50%;">
+                    <div class="inner_margin2">
+                        <i id="error_icon" class="fa fa-times-circle-o fa-2x" style="color: crimson;"></i>
+                    </div>
+                </div>
+                <div class="display_cellM format_center">
+                    {% ctrl_button "errorOk" "Close" %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</body>
+
+
+<script>
+
+$(function() {
+    
+    MakeDialog('#error_dialog', "auto", false);
+
+    $('#errorOk_button').click(function() {  
+        $("#error_dialog").dialog("close");
+    });    
+    
+});
+
+
+</script>
+
+
+</html>
+

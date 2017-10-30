@@ -1,0 +1,227 @@
+
+{% extends "base_nav.html" %}
+{% load utility_ttags %}
+{% load staticfiles %}
+
+{% block content %}
+
+
+<div id="title_section" class="row">
+    <div class="col-xs-12 format_center">
+        <div class="inner_margin1 frame_">
+            <span class="font_title">Title</span>
+        </div>
+    </div>
+</div>
+
+
+<div id="_section" class="row">
+    
+    <div class="col-xs-12">
+        <div class="display_table">
+            <div class="display_row">
+                <div class="display_cellM">
+                    <div class="inner_margin1 frame_" style="margin-right: 0px;">
+                        <span class="font_section">Section</span>
+                    </div>
+                </div>
+                <div class="display_cellT" style="width: 100%;">
+                    <div class="display_block frame_ format_separator">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="display: none;">{% ctrl_status "section" %}</div>
+    </div>
+    
+    <div class="col-xs-12 col-sm-6">
+        <div class="display_block inner_margin1 outer_padding2 frame_">
+            {% ctrl_strong "name" "value" %}
+            {% ctrl_select "name" "label" %}
+            {% ctrl_button "name" "label" %}
+            {% ctrl_listing "name" "label" %}
+            {% ctrl_table "name" %}
+        </div>
+    </div>
+    
+    <div class="col-xs-12 col-sm-4">
+        <div class="display_block inner_margin1 outer_padding2 frame_">
+            
+            <div class="display_table">
+                <div class="display_row">
+                    <div class="display_cellM">
+                        {% ctrl_normal "name" %}
+                    </div>
+                    <div class="display_cellM">
+                        {% ctrl_normal "name" %}
+                    </div>
+                </div>
+                <div class="display_row">
+                    {% ctrl_normal "name" %}
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    
+    <hr class="ctrl_separator">                 
+    
+    <div class="col-xs-12 col-sm-8">
+        <div class="display_block inner_margin1 outer_padding2 frame_">
+            {% ctrl_normal "name" %}
+        </div>
+        
+        <div style="height: 1px;" comment="prevent margin collapse"></div> 
+        
+        <div class="display_block inner_margin1 outer_padding2 frame_">
+            {% ctrl_normal "name" %}
+        </div>
+    </div>
+    
+</div>
+
+
+<!-- dynamically rendered html -->
+
+<div id="dialog_dialog" title="" style="">
+    <div class="format_full outer_padding2 format_center">
+        {% ctrl_normal "question" "" %} 
+    </div>
+    <div class="display_table format_full">
+        <div class="display_row">
+            <div class="display_cellM format_center" style="width: 50%;">
+                {% ctrl_button "okgo" "Confirm" %}
+            </div>
+            <div class="display_cellM format_center">
+                {% ctrl_button "cancel" "Cancel" %}
+            </div>
+        </div>
+    </div>   
+</div>
+
+
+<script>
+
+
+$(document).ready(function()
+{      
+    $('body').css('cursor', 'wait');
+    
+    // TEMPLATE DATA
+    
+    // server: mark_safe(json.dumps(context_var))
+    var jTable = $.parseJSON('{{ context_var | escapejs }}');        
+    var fullT = JSONtoFullTable(jTable.data);
+    SetDataTable('#ranking_table', fullT, jTable.colFmt);
+    
+    var js_dt = Date.parseString(date_tx.substring(0,16), 'yyyy-MM-dd HH:mm');
+    cl(js_dt.format('E HH:mm'));
+    
+    // CONTROLS
+
+    var options_ls = $.parseJSON('{{ list_1d | escapejs }}');        
+    $.each(options_ls, function(key, value) {
+        $('#_select').append($('<option>', {value : key }).text(value));
+    });
+    
+    $('#_select').change(function() {
+        func();
+    });
+    
+    $('#_select').val("value");
+    
+    $('#_button').click(function() {
+        func();
+    });
+    
+    $('#div_').tooltip({
+        items: '#div_',
+        tooltipClass: 'jqueryUI_tooltip',
+        content: function () {
+            var msg = "my tooltip";
+            return msg;
+        },
+        position: {
+            my: 'center bottom',    // relative to tooltip
+            at: 'center top-5%',    // relative to parent
+        }
+    });
+    
+    var path = "/static/..." + FormatFileName(fileName) + ".png"; 
+    $("#_image").attr("src", path); 
+    
+    // inside control handler
+    var htmlID = $(this).attr('id');        // get the html-id of the calling element
+    var id = htmlID.match(/\d+/)[0];        // get the first number in string
+    
+    
+    // DIALOG 
+    //$("#dialog_dialog").dialog("open");
+    
+    MakeDialog('#dialog_dialog');
+    
+    $('#okgo_button').click(function() {
+        $('#dialog_dialog').dialog('close');
+        AJAXFunction();
+    });
+    
+    $('#cancel_button').click(function() {
+        $('#dialog_dialog').dialog('close');
+    });
+    
+    $('#dialog_dialog').on('dialogclose', function(event) {
+        
+    });
+
+    //
+    $('body').css('cursor', 'default');
+});
+
+
+function DisableForm()
+{
+    $('#_select').prop('disabled', true);
+    $('body').css('cursor', 'wait');
+}
+
+function EnableForm()
+{
+    $('#_select').prop('disabled', false);
+    $('body').css('cursor', 'default');    
+}
+
+function AJAXFunction()
+{    
+    var valuez = $('#_text').text();
+    var valuez = $('#_select option:selected').text();
+
+    DisableForm();
+    
+    $.ajax({
+        type: 'POST',
+        url: '{% url "" %}',
+        data: {'data1': data2,},
+        success: function(p_data) {     cl(p_data);
+            
+            var fullT = JSONtoFullTable(p_data.data);
+            SetDataTable('#_table', fullT, p_data.colFormat);
+            
+        }, 
+        error: function(p_err) {
+            ErrorToStatus(p_err.responseText, "AJAXFunction()", '#error_status');
+        },
+        complete: function() {
+            EnableForm();
+        }
+    });
+}
+
+
+</script>
+
+{% endblock content %}
+
+
+
+
+

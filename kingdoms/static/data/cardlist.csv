@@ -1,0 +1,280 @@
+Name,Kingdom,Type,Quant,Rules
+,,,,
+Chaos,Power,P,1,1. Opponent discards 3 cards.
+Celerity,Power,P,1,1. Play an extra action  now.
+Fertility,Power,P,1,1. Draw 3 cards.
+War,Power,P,1,1. Add 3 PD to an attack card just played.  
+Justice,Power,P,1,1. Discard 1 card of each type. 2. Match the opponent's LP.
+Protection,Power,P,1,1. Defend 5 PD. Can defend cards with «No defense».
+Knowledge,Power,P,1,1. Remove 1 blocked action against you or choose 1 action that the opponent can not do on the next turn.
+Life,Power,P,1,1. Heal 7 LP.
+,,,,
+Scout,Ak Shabakk,A,2,1. Attack for 2 PD. 4. May attack again.
+Captain,Ak Shabakk,A,1,1. Attack for 5 PD in combo. 2. You lose 2 LP. 4. May attack again in combo.
+Destroyer,Ak Shabakk,A,2,1. Attack for 5 PD. 3. You can not defend on the next turn.
+Warrior,Ak Shabakk,A,3,1. Attack for 3 PD in combo. 2. You lose 2 LP. 4. May attack again in combo.
+Emperor,Ak Shabakk,A,1,1. Attack for 10 PD. 2. You lose 6 LP. 3. You can not cast spells on the next turn.
+Legionnaire,Ak Shabakk,A,1,1. Attack for 6 PD & No defense. 2. You lose 3 LP.
+Sergeant,Ak Shabakk,A,2,1. Attack for 3 PD. 2. You lose 1 LP.
+Shaman,Ak Shabakk,A,2,1. Attack for 1 PD. 3. Opponent discards 1 card.
+Armor,Ak Shabakk,D,1,1. Defend 3 PD. 2. Heal 1 LP.
+Castle,Ak Shabakk,D,1,1. Defend 5 PD. 3. You can not attack on the next turn.
+Counter-attack,Ak Shabakk,D,2,1. Defend 1 PD. 2. Counter-attack for 2 PD.
+Shield,Ak Shabakk,D,1,1. Defend 2 PD. 3. Draw 1 card.
+Tower,Ak Shabakk,D,1,1. Defend 4 PD. 3. Opponent discards 1 card.
+Mass Healing,Ak Shabakk,S,2,1. Heal 6 LP. 2. Opponent heals 1 LP.
+Eclipse,Ak Shabakk,S,2,1. Heal 2 LP. 2. Deal 3 MD to opponent.
+Sphere of Power,Ak Shabakk,S,1,1. Heal 2 LP. 2. Choose 1 action that the opponent can not do on the next turn.
+Book,Ak Shabakk,S,1,1. You lose 2 LP. 2. Draw 3 cards.
+Oracle,Ak Shabakk,S,1,1. Heal 2 LP. 2. Draw 1 card. 3. Opponent discards 1 card at random.
+Scroll,Ak Shabakk,S,2,1. You lose 1 LP. 2. Draw 2 cards.
+Improve,Ak Shabakk,S,1,1. Heal 2 LP. 2. Improve all your attacks on the next turn by 2 PD.
+Regeneration,Ak Shabakk,S,1,1. Heal 8 LP. 2. You can not attack on the next turn.
+Restoration,Ak Shabakk,S,1,1. Heal 8 LP. 2. You can not defend on the next turn.
+Reverse,Ak Shabakk,S,1,1. You lose 3 LP. 2. Deal MD to opponent equal to the last PD that you suffered last turn.
+Archer,Danadorn,A,2,1. Attack for 3 PD.
+Warrior,Danadorn,A,3,1. Attack for 3 PD. 2. You lose 1 LP.
+Hero,Danadorn,A,1,1. Attack for 6 PD & No defense. 2. You lose 4 LP. 3. Draw 1 card.
+Mage,Danadorn,A,2,1. Attack for 1 PD. 3. Draw 1 card.
+Paladin,Danadorn,A,2,1. Attack for 5 PD. 2. You lose 1 LP.
+Empress,Danadorn,A,1,1. Attack for 8 PD. 2. You lose 6 LP. 4. May attack with 1 Archer after this.
+Tracker,Danadorn,A,2,1. Attack for 2 PD. 2. You lose 1 LP. 4. May attack again.
+Armor,Danadorn,D,1,1. Defend 4 PD.
+Castle,Danadorn,D,1,1. Defend 6 PD. 3. You can not attack on the next turn.
+Counter-attack,Danadorn,D,2,1. Defend 2 PD. 2. Counter-attack for 2 PD.
+Shield,Danadorn,D,1,1. Defend 3 PD.
+Tower,Danadorn,D,1,1. Defend 5 PD. 2. Counter-attack for 1 PD. 3. You can not cast spells on the next turn.
+Divine Healing,Danadorn,S,1,1. Heal 2 LP per card in the opponents hand. 2. Just draw a card at the start your the next turn.
+Healing,Danadorn,S,2,1. Heal 5 LP.
+Eclipse,Danadorn,S,2,1. Heal 2 LP. 2. Deal 2 MD to opponent.
+Sphere of Power,Danadorn,S,1,1. Heal 2 LP. 2. Choose 1 action that the opponent can not do on the next turn.
+Book,Danadorn,S,1,"1. You lose 2 LP. 2. Draw 3 cards. 3, Opponent discards 1 card."
+Scroll,Danadorn,S,2,1. You lose 1 LP. 2. Draw 2 cards. 3. Opponent discards 1 card.
+Improve,Danadorn,S,1,1. Heal 3 LP. 2. Improve all your attacks on the next turn by 2 PD.
+Regeneration,Danadorn,S,1,1. Heal 8 LP. 2. You can not attack on the next turn.
+Restoration,Danadorn,S,1,1. Heal 8 LP. 2. You can not defend on the next turn.
+Reverse,Danadorn,S,1,1. You lose 3 LP. 2. Deal MD to opponent equal to the last PD that you suffered last turn.
+Mystic Throne,Danadorn,S,1,1. Both discard all cards. 2. You lose 1 LP per card discarded by the opponent.
+Archer,Izillian,A,2,1. Attack for 2 PD & Double attack. 3. You can not defend on the next turn.
+Druid,Izillian,A,1,1. Attack for 5 PD & No defense. 2. You lose 4 LP. 3. Opponent can not cast spells on their next turn.
+Spy,Izillian,A,2,1. Attack for 3 PD. 2. You lose 2 LP. 4. May attack again.
+Warrior,Izillian,A,3,1. Attack for 3 PD. 2. You lose 1 LP.
+Mage,Izillian,A,2,1. Attack for 0 PD. 3. Draw 1 card 4. Opponent discards 1 card.
+Princess,Izillian,A,1,1. Attack for 7 PD. 2. You lose 4 LP.
+Ranger,Izillian,A,2,1. Attack for 5 PD. 2. You lose 2 LP. 3. Draw 1 card. 4. You can not attack on the next turn.
+Armor,Izillian,D,1,1. Defend 4 PD. 2. Counter-attack for 1 PD.
+Counter-attack,Izillian,D,2,1. Defend 2 PD. 2. Counter-attack for 1 PD.
+Shield,Izillian,D,1,1. Defend 3 PD. 
+Tower,Izillian,D,1,1. Defend 5 PD. 3. You can not cast spells on the next turn.
+Lightning Ball,Izillian,S,1,1. You lose 4 LP. 2. Opponent discards 3 cards.
+Mass Healing,Izillian,S,1,1. Heal 8 LP. 2. Opponent heals 3 LP. 3. Opponent discards 1 card at random.
+Healing,Izillian,S,2,1. Heal 7 LP.
+Eclipse,Izillian,S,2,1. Heal 2 LP. 2. Deal 2 MD to opponent.
+Sphere of Power,Izillian,S,1,1. Heal 2 LP. 2. Choose 1 action that the opponent can not do on the next turn.
+Scroll,Izillian,S,3,1. Draw 2 cards.
+Improve,Izillian,S,1,1. Improve all your attacks on the next turn by 2 PD.
+Thunderbolt,Izillian,S,1,"1. If the opponent did not play any cards on the previous turn, you lose 1 LP. 2. Deal 5 MD to opponent."
+Regeneration,Izillian,S,1,1. Heal 8 LP. 2. You can not attack on the next turn.
+Restoration,Izillian,S,1,1. Heal 8 LP. 2. You can not defend on the next turn.
+Reverse,Izillian,S,1,1. You lose 3 LP. 2. Deal MD to opponent equal to the last PD that you suffered last turn.
+Barbarian,Shav Gorin,A,2,1. Attack for 4 PD. 2. You lose 2 LP.
+Berserker,Shav Gorin,A,1,1. Attack for 7 PD 2. You lose 1 LP. 3. You can not attack on the next turn.
+Champion,Shav Gorin,A,1,1. Attack for 8 PD & No defense. 2. You lose 6 LP. 3. Opponent discards 1 card.
+Scout,Shav Gorin,A,2,1. Attack for 1 PD. 4. May attack again.
+Blacksmith,Shav Gorin,A,2,1. Attack for 3 PD. 2. You lose 1 LP.
+Warrior,Shav Gorin,A,2,1. Attack for 4 PD. 3. You can not cast spells on the next turn.
+Mage,Shav Gorin,A,2,1. Attack for 1 PD. 3. Draw 1 card or the opponent discards 1.
+King,Shav Gorin,A,1,1. Attack for 10 PD. You lose 7 LP.
+Armor,Shav Gorin,D,1,1. Defend 4 PD. 3. Opponent can not cast spell on their next turn.
+Castle,Shav Gorin,D,1,1. Defend 7 PD. 2.  Counter-attack for 1 PD. 3. You can not defend on the next turn.
+Counter-attack,Shav Gorin,D,2,1. Defend 1 PD. 2. Counter-attack for 3 PD.
+Shield,Shav Gorin,D,1,1. Defend 3 PD 2.  Counter-attack for 2 PD.
+Fortress,Shav Gorin,D,1,1. Defend 4 PD. 2. Heal 3 LP.
+Tower,Shav Gorin,D,1,1. Defend 5 PD.
+Healing,Shav Gorin,S,2,1. Heal 4 LP.
+Eclipse,Shav Gorin,S,2,1. Heal 3 LP. 2. Deal 1 MD to opponent.
+Sphere of Power,Shav Gorin,S,1,1. Heal 2 LP. 2. Choose 1 action that the opponent can not do on the next turn.
+Book,Shav Gorin,S,1,1. You lose 2 LP. 2. Draw 3 cards.
+Oracle,Shav Gorin,S,1,1 You lose 1 LP. 2. Draw 2 cards. 3. Opponent draws 1 card. 4. Opponent discards 1 card at random.
+Scroll,Shav Gorin,S,2,1. You lose 1 LP. 2. Draw 2 cards.
+Improve,Shav Gorin,S,1,1. Heal 1 LP. 2. Improve all your attacks on the next turn by 3 PD.
+Regeneration,Shav Gorin,S,1,1. Heal 8 LP. 2. You can not attack on the next turn.
+Restoration,Shav Gorin,S,1,1. Heal 8 LP. 2. You can not defend on the next turn.
+Reverse,Shav Gorin,S,1,1. You lose 3 LP. 2. Deal MD to opponent equal to the last PD that you suffered last turn.
+Champion,Theus,A,1,1. Attack for 7 PD & No defense. 2. You lose 6 LP. 3. Opponent discards 1 card.
+Chieftain,Theus,A,1,1. Attack for 12 PD. 2. You lose 10 LP.
+Seeker,Theus,A,3,1. Attack for 2 PD. 4. May attack again.
+Crusher,Theus,A,2,1. Attack for 6 PD. 2. You lose 2 LP. 4. End this turn.
+Devastator,Theus,A,4,1. Attack for 5 PD. 2. You lose 2 LP.
+Soldier,Theus,A,3,1. Attack for 4 PD. 2. You lose 1 LP.
+Shaman,Theus,A,2,1. Attack for 1 PD. 2. You lose 1 LP. 3. Heal 4 LP. 4. You can not attack on the next turn.
+Armor,Theus,D,2,1. Defend 4 PD.
+Castle,Theus,D,1,1. Defend 6 PD. 3. You can not defend on the next turn.
+Shield,Theus,D,2,1. Defend 3 PD.
+Tower,Theus,D,1,1. Defend 5 PD.
+Mass Healing,Theus,S,2,1. Heal 6 LP. 2. Opponent heals 3 LP.
+Eclipse,Theus,S,1,1. Heal 3 LP. 2. Deal 2 MD to opponent.
+Sphere of Power,Theus,S,1,1. Heal 2 LP. 2. Choose 1 action that the opponent can not do on the next turn.
+Book,Theus,S,1,1. You lose 2 LP. 2. Draw 3 cards.
+Oracle,Theus,S,1,1. You lose 2 LP. 2. Draw 2 cards. 3. Opponent discards 1 card at random.
+Scroll,Theus,S,1,1. Heal 1 LP. 2. Draw 2 cards.
+Improve,Theus,S,1,1. Heal 1 LP. 2. Improve all your attacks on the next turn by 2 PD.
+Regeneration,Theus,S,1,1. Heal 8 LP. 2. You can not attack on the next turn.
+Restoration,Theus,S,1,1. Heal 8 LP. 2. You can not defend on the next turn.
+Reverse,Theus,S,1,1. You lose 3 LP. 2. Deal MD to opponent equal to the last PD that you suffered last turn.
+Cursed,Wukaal,A,2,1. Attack for 2 PD. 2. You lose 1 LP. 3. Opponent doesn't draw at the start of their next turn.
+Black Knight,Wukaal,A,2,1. Attack for 5 PD. Double function (Attack or defend). 3. You can not cast spells on the next turn.
+Ghoul,Wukaal,A,2,1. Attack for 4 PD. 2. You lose 3 LP. 4. May attack again.
+Zombie,Wukaal,A,3,1. Attack for 2 PD in combo. 2. You lose 1 LP. 4. May attack again in combo.
+Invoker,Wukaal,A,1,1. Attack for 7 PD & No defense. 2. You lose 4 LP. 3. Draw 1 card. 4. You can not defend on the next turn.
+Master,Wukaal,A,1,1. Attack for 9 PD. 2. You lose 6 LP.
+Reaper,Wukaal,A,2,1. Attack for 3 PD. 2. Heal 1 LP per damage to opponent.
+Armor,Wukaal,D,1,1. Defend 3 PD.
+Castle,Wukaal,D,1,1. Defend 6 PD. 3. You can not attack on the next turn.
+Counter-attack,Wukaal,D,1,1. Defend 2 PD. 2. Counter-attack for 2 PD.
+Shield,Wukaal,D,2,1. Defend 2 PD. 2. Counter-attack for 1 PD.
+Tower,Wukaal,D,1,1. Defend 4 PD.
+Dread Skull,Wukaal,S,1,1. Heal 3 LP. 2. Draw 2 cards.
+Healing,Wukaal,S,2,1. Heal 5 LP.
+Eclipse,Wukaal,S,2,1. Heal 2 LP. 2. Deal 3 MD to opponent.
+Sphere of Power,Wukaal,S,1,1. Heal 2 LP. 2. Choose 1 action that the opponent can not do on the next turn.
+Book,Wukaal,S,2,1. You lose 2 LP. 2. Draw 3 cards.
+Curse,Wukaal,S,1,1. You lose 2 LP. 2. Opponent discards 1 card. 3. Opponent discards 1 card at random.
+Scroll,Wukaal,S,1,1. You lose 1 LP. 2. Draw 2 cards. 3. Opponent discards 1.
+Improve,Wukaal,S,1,1. Improve all your attacks on the next turn by 2 PD.
+Regeneration,Wukaal,S,1,1. Heal 8 LP. 2. You can not attack on the next turn.
+Restoration,Wukaal,S,1,1. Heal 8 LP. 2. You can not defend on the next turn.
+Reverse,Wukaal,S,1,1. You lose 3 LP. 2. Deal MD to opponent equal to the last PD that you suffered last turn.
+,,,,
+Amazon,Amniss,A,2,1. Attack for 4 PD. 2. You lose 1 LP.
+Spy,Amniss,A,2,1. Attack for 1 PD. 4. May attack again.
+Sorceress,Amniss,A,2,1. Attack for 1 PD. 3. Opponent discards 1 card at random.
+Warrior,Amniss,A,3,1. Attack for 3 PD in combo. 2. You lose 1 LP. 4. May attack again in combo.
+Matriarch,Amniss,A,1,1. Attack for 7 PD. 2. You lose 5 LP. 4. May attack with 1 Amazon after this.
+Sentinel,Amniss,A,2,1. Attack for 2 PD. 2. You lose 1 LP. 4. May attack again.
+Clairvoyant,Amniss,A,1,1. Attack for 2 PD. 3. Improve all your attacks on the next turn by 1 PD.
+Avenger,Amniss,A,1,1. Attack for 5 PD & No defense (+2 PD if opponent attacked on the last turn). 2. You lose 3 LP.
+Crow Amulet,Amniss,D,2,1. Defend 1 PD. 2. Counter-attack for 3 PD. 3. Heal 1 LP per damage to opponent.
+Armor,Amniss,D,1,1. Defend 4 PD. 3. You can not defend on the next turn.
+Shield,Amniss,D,1,1. Defend 3 PD. 3. Draw 1 card.
+Tower,Amniss,D,1,1. Defend 5 PD. 3. You can not cast spells on the next turn.
+Kiss of Death,Amniss,S,1,1. You lose 4 LP. 2. Deal 2 MD to opponent. 3. Opponent discards 2 cards.
+Healing,Amniss,S,2,1. Heal 6 LP.
+Eclipse,Amniss,S,2,1. Heal 2 LP. 2. Deal 3 MD to opponent.
+Sphere of Power,Amniss,S,1,1. Heal 2 LP. 2. Choose 1 action that the opponent can not do on the next turn.
+Book,Amniss,S,2,1. You lose 2 LP. 2. Draw 3 cards.
+Forbidden Tome,Amniss,S,1,1. Draw 1 card for every attack card played by you on this turn.
+Scroll,Amniss,S,1,1. Draw 2 cards.
+Improve,Amniss,S,1,1. Heal 3 LP. 2. Improve all your attacks on the next turn by 1 PD.
+Regeneration,Amniss,S,1,1. Heal 8 LP. 2. You can not attack on the next turn.
+Restoration,Amniss,S,1,1. Heal 8 LP. 2. You can not defend on the next turn.
+Reverse,Amniss,S,1,1. You lose 3 LP. 2. Deal MD to opponent equal to the last PD that you suffered last turn.
+Archfiend,Azzroth,A,1,1. Attack for 10 PD & No defense. 2. You lose 10 LP. 3. You can not attack on the next turn.
+Fallen Angel,Azzroth,A,2,1. Attack for 3 PD. 2. You lose 2 LP. 4. May attack again.
+Demon Knight,Azzroth,A,2,1. Attack for 5 PD. 2. You lose 2 LP.
+Deceiver,Azzroth,A,2,1. Attack for 3 PD. 2. You lose 1 LP. 3. Draw 1 card.
+Daemon,Azzroth,A,3,1. Attack for 3 PD.
+Incubus,Azzroth,A,1,1. Attack for 5 PD & No defense. 2. You lose 4 LP. 4. May attack with 1 Daemon after this.
+Succubus,Azzroth,A,2,"1. Attack for 4 PD. Triple function (Attack, defend or heal). 3. You can not cast spells on the next turn."
+Armor,Azzroth,D,1,1. Defend 3 PD. 3. Draw 1 card.
+Castle,Azzroth,D,1,1. Defend 5 PD. 2. Counter-attack for 1 PD. 3. You can not defend on the next turn.
+Counter-attack,Azzroth,D,2,1. Defend 1 PD. 2. Counter-attack for 2 PD.
+Shield,Azzroth,D,1,1. Defend 2 PD. 3. Opponent discards 1 card.
+Tower,Azzroth,D,1,1. Defend 4 PD. 2. Counter-attack for 1 PD.
+Ring of Fire,Azzroth,S,1,1. Heal 2 LP. 2. Opponent doesn't draw at the start of their next turn.
+Healing,Azzroth,S,2,1. Heal 3 LP. 2. Draw 1 card.
+Eclipse,Azzroth,S,2,1. Heal 3 LP. 2. Deal 1 MD to opponent.
+Sphere of Power,Azzroth,S,1,1. Heal 2 LP. 2. Choose 1 action that the opponent can not do on the next turn.
+Book,Azzroth,S,2,1. You lose 2 LP. 2. Draw 3 cards.
+Fireball,Azzroth,S,1,1. Deal 3 MD to opponent. 2. Opponent discards 1 card at random.
+Improve,Azzroth,S,1,1. Heal 3 LP. 2. Improve all your attacks on the next turn by 2 PD.
+Regeneration,Azzroth,S,1,1. Heal 8 LP. 2. You can not attack on the next turn.
+Restoration,Azzroth,S,1,1. Heal 8 LP. 2. You can not defend on the next turn.
+Reverse,Azzroth,S,1,1. You lose 3 LP. 2. Deal MD to opponent equal to the last PD that you suffered last turn.
+Flames,Azzroth,S,1,1. Heal 2 LP. 2. Draw 1 card. 3. Opponent discards 1 card.
+Elder,Dee’Ench,A,1,1. Attack for 11 PD. 2. You lose 6 LP. 3. O
+Savage,Dee’Ench,A,4,1. Attack for 4 PD. 2. You lose 2 LP.
+Druid,Dee’Ench,A,3,1. Attack for 1 PD. 3. Draw 1 card. 4. May attack with 1 Savage after this.
+Strangler,Dee’Ench,A,1,1. Attack for 3 PD & Double attack. 2. You lose 1 LP. 3. You can not cast spells on the next turn.
+Guardian,Dee’Ench,A,2,1. Attack for 3 PD. 2. You lose 1 LP. 3. Opponent discards 1 card at random.
+Juggernaut,Dee’Ench,A,1,1. Attack for 7 PD & No defense. 2. You lose 4 LP. 4. End this turn.
+Sentinel,Dee’Ench,A,3,1. Attack for 2 PD.
+Armor,Dee’Ench,D,2,1. Defend 4 PD.
+Castle,Dee’Ench,D,1,1. Defend 6 PD. 3. You can not attack on the next turn.
+Counter-attack,Dee’Ench,D,2,1. Defend 1 PD. 2. Counter-attack for 1 PD. 3. Opponent discards 1 card.
+Shield,Dee’Ench,D,1,1. Defend 3 PD. 2. Counter-attack for 2 PD. 3. You can not attack on the next turn.
+Tower,Dee’Ench,D,1,1. Defend 5 PD. 3. You can not defend on the next turn.
+Healing,Dee’Ench,S,2,1. Heal 6 LP.
+Eclipse,Dee’Ench,S,2,1. Heal 4 LP. 2. Deal 2 MD to opponent.
+Sphere of Power,Dee’Ench,S,1,1. Heal 2 LP. 2. Choose 1 action that the opponent can not do on the next turn.
+Book,Dee’Ench,S,1,1. You lose 3 LP. 2. Draw 3 cards.
+Scroll,Dee’Ench,S,2,1. You lose 1 LP. 2. Draw 2 cards.
+Improve,Dee’Ench,S,1,1. Improve all your attacks on the next turn by 3 PD.
+Regeneration,Dee’Ench,S,1,1. Heal 8 LP. 2. You can not attack on the next turn.
+Restoration,Dee’Ench,S,1,1. Heal 8 LP. 2. You can not defend on the next turn.
+Reverse,Dee’Ench,S,1,1. You lose 3 LP. 2. Deal MD to opponent equal to the last PD that you suffered last turn.
+Archangel,Fahanzel,A,1,1. Attack for 5 PD & Double attack. 2. You lose 3 LP. 4. End this turn.
+Seraph,Fahanzel,A,1,1. Attack for 6 PD & No defense. 2. You lose 4 LP. 3. Opponent can not attack on the next turn.
+Thrones,Fahanzel,A,2,1. Attack for 2 PD. 2. You lose 2 LP. 4. May attack again.
+Angel,Fahanzel,A,2,1. Attack for 3 PD. 2. You lose 1 LP.
+Dominions,Fahanzel,A,2,1. Attack for 3 PD. 2. You lose 1 LP. 3. Opponent discards 1 card.
+Cherub,Fahanzel,A,3,1. Attack for 4 PD.
+Virtues,Fahanzel,A,2,1. Attack for 1 PD. 2. You lose 1 LP. 3. Heal 4 LP.
+Angel Wings,Fahanzel,D,1,1. You take damage equal to the attack's step 2 damage. 2. Counter-attack for the attack's step 1 damage. 3. You can not cast spells on the next turn.
+Counter-attack,Fahanzel,D,2,1. Defend 2 PD. 2. Counter-attack for 0 PD. 3. Opponent discards 1 card of their choice.
+Shield,Fahanzel,D,4,1. Defend 3 PD.
+Tower,Fahanzel,D,1,1. Defend 5 PD. 3. You can not cast spells on the next turn.
+Eclipse,Fahanzel,S,2,1. Heal 4 LP. 2. Deal 1 MD to opponent.
+Library,Fahanzel,S,1,1. You lose 2 LP. 2. Draw 4 cards.
+Freeze,Fahanzel,S,1,1. Heal 3 LP. 2. Deal 1 MD to opponent. 3. Opponent doesn't draw at the start of their next turn.
+Holy Arrow,Fahanzel,S,2,1. Deal 2 MD to opponent. 2. Opponent discards 1 card at random.
+Sphere of Power,Fahanzel,S,1,1. Heal 2 LP. 2. Choose 1 action that the opponent can not do on the next turn.
+Book,Fahanzel,S,2,1. You lose 2 LP. 2. Draw 3 cards.
+Improve,Fahanzel,S,1,1. Heal 2 LP. 2. Improve all your attacks on the next turn by 2 PD.
+Regeneration,Fahanzel,S,1,1. Heal 8 LP. 2. You can not attack on the next turn.
+Restoration,Fahanzel,S,1,1. Heal 8 LP. 2. You can not defend on the next turn.
+Reverse,Fahanzel,S,1,1. You lose 3 LP. 2. Deal MD to opponent equal to the last PD that you suffered last turn.
+Alpha,Labuluu,A,1,1. Attack for 9 PD. 2. You lose 5 LP. 3. You can not cast spells on the next turn.
+Beta,Labuluu,A,1,1. Attack for 5 PD & Sem defesa. 2. You lose 2 LP. 3. Opponent discards 1 card.
+Hunter,Labuluu,A,2,1. Attack for 2 PD & No defense. 2. You lose 2 LP.
+Tracker,Labuluu,A,2,1. Attack for 1 PD. 4. May attack again.
+Sentinel,Labuluu,A,4,1. Attack for 2 PD & Double attack.
+Delta,Labuluu,A,2,1. Attack for 5 PD. 2. You lose 1 LP. 3. You can not attack on the next turn.
+Omega,Labuluu,A,2,1. Attack for 3 PD. 2. You lose 2 LP. 3. Draw 1 card.
+Armor,Labuluu,D,1,1. Defend 3 PD.
+Counter-attack,Labuluu,D,2,1. Defend 1 PD. 2. Counter-attack for 2 PD.
+Shield,Labuluu,D,1,1. Defend 2 PD 2.  Counter-attack for 1 PD.
+Tower,Labuluu,D,1,1. Defend 3 PD 2.  Counter-attack for 2 PD. 3. You can not defend on the next turn.
+Mass Healing,Labuluu,S,2,1. Heal 5 LP. 2. Opponent heals 2 LP.
+Eclipse,Labuluu,S,2,1. Heal 3 LP. 2. Deal 1 MD to opponent.
+Sphere of Power,Labuluu,S,1,1. Heal 2 LP. 2. Choose 1 action that the opponent can not do on the next turn.
+Full Moon,Labuluu,S,1,1. You lose 2 LP. 2. Opponent discards 2 cards at random.
+Oracle,Labuluu,S,1,1 Heal 2 LP. 2. Draw 3 cards. 3. Opponent draws 2 cards. 4. Deal 1 MD to opponent.
+Scroll,Labuluu,S,3,1. Draw 2 cards.
+Improve,Labuluu,S,1,1. Heal 4 LP. 2. Improve all your attacks on the next turn by 1 PD.
+Regeneration,Labuluu,S,1,1. Heal 8 LP. 2. You can not attack on the next turn.
+Restoration,Labuluu,S,1,1. Heal 8 LP. 2. You can not defend on the next turn.
+Reverse,Labuluu,S,1,1. You lose 3 LP. 2. Deal MD to opponent equal to the last PD that you suffered last turn.
+Knight,Qsi Tesan,A,2,1. Attack for 4 PD. 2. You lose 1 LP.
+Princess,Qsi Tesan,A,1,1. Attack for 5 PD & No defense. 2. You lose 2 LP.
+Assassin,Qsi Tesan,A,2,1. Attack for 2 PD. 2. You lose 1 LP. 4. May attack again.
+Warrior,Qsi Tesan,A,3,1. Attack for 3 PD. 2. You lose 1 LP.
+Priestess,Qsi Tesan,A,2,1. Attack for 2 PD. 2. Heal 2 LP. 4. May attack with 1 Warrior after this.
+Queen,Qsi Tesan,A,1,1. Attack for 8 PD. 2. You lose 5 LP. 3. Opponent discards 1 card at random.
+Shadow Mage,Qsi Tesan,A,2,1. Attack for 5 PD. 2. You lose 2 LP. 3. Draw 1 card or the opponent discards 1 card.
+Armor,Qsi Tesan,D,1,1. Defend 4 PD. 3. You can not cast spells on the next turn.
+Counter-attack,Qsi Tesan,D,2,1. Defend 2 PD. 2. Counter-attack for 1 PD.
+Shield,Qsi Tesan,D,1,1. Defend 3 PD.
+Tower,Qsi Tesan,D,1,1. Defend 5 PD. 3. You can not defend on the next turn.
+Gloomy Crystal,Qsi Tesan,S,1,1. Heal 2 LP. 2. Deal 3 MD to opponent. 3. Draw 1 card.
+Book,Qsi Tesan,S,1,1. You lose 1 LP. 2. Draw 3 cards.
+Healing,Qsi Tesan,S,2,1. Heal 6 LP.
+Eclipse,Qsi Tesan,S,2,1. Heal 2 LP. 2. Deal 2 MD to opponent.
+Sphere of Power,Qsi Tesan,S,1,1. Heal 2 LP. 2. Choose 1 action that the opponent can not do on the next turn.
+Scroll,Qsi Tesan,S,2,1. Draw 2 cards.
+Improve,Qsi Tesan,S,1,1. Heal 2 LP. 2. Improve all your attacks on the next turn by 2 PD.
+Ice Storm,Qsi Tesan,S,1,1. You lose 2 LP. 2. Draw 1 card. 3. Opponent discards 2 cards.
+Thunderbolt,Qsi Tesan,S,1,"1. If the opponent did not play any cards on the previous turn, .deal 4 MD to opponent."
+Regeneration,Qsi Tesan,S,1,1. Heal 8 LP. 2. You can not attack on the next turn.
+Restoration,Qsi Tesan,S,1,1. Heal 8 LP. 2. You can not defend on the next turn.
+Reverse,Qsi Tesan,S,1,1. You lose 3 LP. 2. Deal MD to opponent equal to the last PD that you suffered last turn.

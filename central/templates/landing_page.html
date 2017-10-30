@@ -1,0 +1,57 @@
+
+{% extends "base_nav.html" %}
+{% load utility_ttags %}
+{% load staticfiles %}
+
+{% comment %}
+{% endcomment %}
+
+{% block content %}
+
+
+<style>
+
+.font_titleLnd {
+    padding: 20px 0px 0px 0px;
+    color: DarkGoldenRod ;
+    font-size: 250%;
+    font-weight: bolder;    
+}
+
+</style>
+
+<div id="" class="row">
+    
+    <div class="col-xs-12">
+        <div class="format_center" style="padding-top: 100px;">
+            <img src="{% static 'graphics/era_title.png' %}" style=""/> <br>
+            <span class="font_titleLnd">Online</span> <br>
+            <img src="{% static 'graphics/era_logo.png' %}" style="padding-top: 100px;"/> <br>
+        </div>
+    </div>
+    
+</div>
+
+
+<!-- SCRIPTS -->
+
+<script>
+
+
+$(document).ready(function()
+{      
+    $('body').css('cursor', 'wait');
+    
+
+    $('body').css('cursor', 'default');
+});
+
+
+</script>
+
+{% endblock content %}
+
+
+
+
+

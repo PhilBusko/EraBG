@@ -1,0 +1,68 @@
+
+{% extends "base_nav.html" %}
+{% load utility_ttags %}
+{% load staticfiles %}
+
+{% block content %}
+
+
+<div id="title_section" class="row">
+    <div class="col-xs-12 format_center">
+        <div class="inner_margin1 frame_header">
+            <span class="font_title">Game Rules</span>
+        </div>
+    </div>
+</div>
+
+
+<div id="_section" class="row">
+    
+    <div class="col-xs-12">
+        <div class="display_table">
+            <div class="display_row">
+                <div class="display_cellM">
+                    <div class="inner_margin1 frame_header" style="margin-right: 0px;">
+                        <span class="font_section">Rule Books</span>
+                    </div>
+                </div>
+                <div class="display_cellT" style="width: 100%;">
+                    <div class="display_block frame_header format_separator">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="display: none;">{% ctrl_status "section" %}</div>
+    </div>
+    
+    <div class="col-xs-12 col-sm-6">
+        <div class="display_block inner_margin1 outer_padding2 frame_entry" style="min-height: 100px;">
+            <div class="inner_margin2">
+                <a class="font_link" target="blank_" href="/static/documents/rulebook_pt.pdf">Livro de Regras</a>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+
+<script>
+
+
+$(document).ready(function()
+{      
+    $('body').css('cursor', 'wait');
+    
+
+    //
+    $('body').css('cursor', 'default');
+});
+
+
+</script>
+
+{% endblock content %}
+
+
+
+
+

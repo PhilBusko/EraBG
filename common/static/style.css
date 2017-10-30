@@ -1,0 +1,617 @@
+/******************************************************************************
+NAVIGATION
+******************************************************************************/
+
+.left_toggle {
+    float: left;
+    margin-left: 30px;
+    background: #efd6f5;
+}
+
+.right_toggle {
+    margin-right: 30px;
+    background: #FAEBD7;
+}
+
+.nav_fixed {
+    left: 0;
+    z-index: 10;
+    
+    background-size: 100% auto;
+    background-position: left bottom; 
+    background-repeat: no-repeat;
+}
+
+.content_fixed {
+    position: fixed;
+    z-index: -10;
+    width: 83%;
+    height: 100%;
+    
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;    
+}
+@media (max-width: 768px) {
+    .content_fixed {
+        width: 100%;
+    }
+}
+
+
+/***/
+.menu_bottom {
+    position: fixed;
+    top: 8px;
+    left: 8px;
+    z-index: 1;
+    height: 63px;
+    width: 15.9%;
+}
+@media (max-width: 991px) {
+    .menu_bottom {
+        width: 24.5%;
+    }
+}
+@media (max-width: 767px) {
+    .menu_bottom {
+        width: 99%;
+    }
+}
+
+
+.menu_top {
+    position: relative;
+    z-index: 20;
+    height: 65px;
+}
+
+.menu_manage {
+    margin: 2px 2px 4px 2px;
+    border: 2px solid blue;      /*  */
+    border-radius: 5px;
+    
+    padding: 6px !important;
+    color: blue;
+	transition: 200ms linear 0s;
+}
+.menu_manage:hover {
+    border: 2px solid #ffa500;      /* orange */
+    color: #ffa500;
+}
+
+.font_manage {
+    padding: 1px;
+    font-size: 90%;
+    color: blue ;
+    text-decoration: underline;
+    cursor: pointer;
+	transition: 200ms linear 0s;
+}
+.font_manage:hover {
+    color: brown;
+}
+
+.menu_account {
+    display: inline-block;
+    width: 70%;
+    height: 100%;
+    
+    margin-top: -20px;
+    border: 2px solid blue;    
+    border-top: 0px;
+    border-radius: 15px;
+    
+    background-color: white;
+	transition: 200ms linear 0s;
+    cursor: pointer;
+}
+.menu_account:hover {
+    border-color: #ffa500;    
+}
+.menu_account:hover .font_account {
+    color: #ffa500 !important;
+}
+
+.manage_tooltip {
+    border: 2px solid blue;      
+    background: white;
+    color: blue;
+}
+
+.font_account {
+    padding: 20px 0px 2px 0px;
+    color: blue;
+	font-size: 180%;
+    transition: 200ms linear 0s;
+}
+
+
+.menu_currencies {
+    position: absolute;
+    left: 110%;
+    top: 0;
+}
+
+.format_currency {
+    border-radius: 20px;
+    background-color: #80b380;  /* DarkSeaGreen */
+}
+
+/***/
+@media (min-width: 768px) {
+    .navbar-fixed-side .dropdown .dropdown-menu {
+        position: absolute;
+        top: 0px; 
+        left: 100%;
+        display: none;
+    }
+    
+    .navbar-fixed-side .dropdown:hover .dropdown-menu {
+        /* make dropdown-menu appear when dropdown hover */
+        display: block;
+    }
+}
+
+
+.menu_item {
+    display: block;
+    margin: 2px 2px 8px 2px;
+    padding: 6px !important;
+    border: 2px solid black;
+    border-radius: 5px;
+    background: white;
+	transition: 200ms linear 0s;
+}
+
+.menu_item:hover {
+    border: 2px solid crimson;
+}
+
+.menu_subItem, .menu_subItemL {
+    display: block;
+    margin: 4px;
+    padding: 4px !important;
+    border-bottom: 1px solid black;
+}
+
+.menu_subItemL {
+    border-bottom: 0px !important;
+}
+
+.menu_dropdown {
+    border: 2px solid black;
+    border-radius: 5px;
+    background-color: white;
+}
+
+.dropdown:hover .menu_item {
+    border: 2px solid crimson;
+    color: crimson;
+}
+
+.menu_font {
+    font-family: '';
+    font-size: 140%;
+    font-weight: bolder;
+	text-decoration: none !important;   /* stupid <a> */
+    color: black;
+    white-space: nowrap;    
+	transition: 200ms linear 0s;
+}
+.menu_font:hover {
+    color: crimson;
+}
+
+
+
+/******************************************************************************
+FORMAT GRID
+******************************************************************************/
+
+.outer_padding1 {
+    padding: 8px 8px 8px 8px;      /* T R B L */
+}
+
+.inner_margin1 {
+    margin: 8px;
+    display: inline-block;  /* prevent margin from collapsing */
+}
+
+.outer_padding2 {
+    padding: 4px;
+}
+
+.inner_margin2 {
+    margin: 4px;
+    display: inline-block;  /* prevent margin from collapsing */
+}
+
+.padding_dialog {
+    padding: 0px 8px;
+}
+
+.format_separator {
+    border-bottom: hidden !important;
+    margin: 8px 8px 0px -4px;
+}
+
+.ctrl_separator {
+    margin: 4px;
+    border: none;
+    height: 1px;
+    background-color: #A9A9A9;
+}
+
+
+.display_block {
+    display: block;
+}
+
+.display_table {
+    display: table;
+    border-collapse: collapse;
+}
+
+.display_row {
+    display: table-row;
+}
+
+.display_cellM {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.display_cellT {
+    display: table-cell;
+    vertical-align: top;
+}
+
+.display_canvas {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 20;
+}
+
+.format_frame {
+    border-width: 4px;
+    border-style: ridge;
+}
+
+.format_outline {
+    border: 1px solid black;    
+}
+
+.format_inside {
+    border-color: darkgrey;
+    border-style: solid;
+    border-width: 1px;   /* T R B L */
+}
+
+.format_inside2 {
+    border-color: darkgrey;
+    border-style: solid;
+    border-width: 2px;   /* T R B L */
+}
+
+.format_full {
+    width: 100%; 
+}
+
+
+
+/******************************************************************************
+FORMAT CUSTOMIZE
+******************************************************************************/
+
+.format_center {
+    text-align: center;  /* works for block context text */
+}
+
+.display_center {
+    margin: 0 auto;     /* works for position relative, etc */
+}
+
+.format_vertical {
+    position: relative;
+    top: 45%;
+    transform: translateY(-50%);       /* works for position relative, etc */
+}
+
+
+.format_cpointer {
+    cursor: pointer;
+}
+
+.format_fixline {
+    /* used in jQuery DataTable */
+    white-space: nowrap;
+}
+
+.format_button {
+    /*  can't change background without unknown changes
+        forced to restyle button entirely */
+    padding: 2px 6px;
+    border-radius: 4px;  
+    border-color: #a6a6a6;
+    color: black;
+    cursor: pointer;
+}
+
+.format_button:hover {
+    background: white; 
+}
+
+.format_button[disabled] {
+    /* all disabled states */
+    opacity: .6;
+    background: inherit;     
+}
+
+
+.format_dirty {
+    background: #f05c79;
+    border-color: crimson;
+}
+
+.format_dirty:hover {
+    background: pink;
+}
+
+.format_fileOpenButton {
+    display: inline-block;
+    border: 1px solid darkgray;
+    border-radius: 4px;
+    padding: 4px 10px;
+    background: WhiteSmoke;
+    cursor: pointer;
+}
+
+.format_fileOpenButton:hover {
+    box-shadow: 1px 1px 2px rgba(80, 92, 51, 0.17);
+}
+
+
+.format_disable {
+    /* disable all of a div's content */
+    opacity: .7;
+    pointer-events: none;
+}
+
+.format_highlight {
+    background-color: #e1f0c1;  /* yellowgreen */
+    background-origin: content-box; /* ? */
+}
+
+.format_extCol {
+    /* used to extend a bootstrap col vertically */
+    float: none;
+    display: table-cell;
+    vertical-align: middle;  
+}
+
+
+/******************************************************************************
+FONTS
+******************************************************************************/
+
+.font_default {
+    font-family: 'Open Sans',sans-serif;
+    font-size: 150%;
+}
+@font-face {
+    font-family: 'agencyFB';
+    src: url('fonts/AgencyFB.ttf');
+}
+
+
+.font_title {
+    font-size: 220%;
+    font-weight: bold;
+    font-variant: small-caps;
+    display: inline-block; 
+    padding: 8px 16px;
+    line-height: 1;
+}
+
+.font_section {
+    font-size: 160%;
+    font-weight: bold;
+    font-variant: small-caps;
+    display: inline-block;  
+    padding: 8px;
+    white-space: nowrap;
+    line-height: 1;
+}
+
+.font_strong {
+    /* column title */
+    font-size: 115%;
+    font-weight: bold;
+    display: block;
+}
+
+.font_small {
+    font-size: 85%;
+}
+
+.font_bold {
+    /* used in jQuery DataTable */
+    font-weight: bold; 
+}
+
+.font_link {
+    color: blue !important;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.list_bullet {
+    margin: 0px;
+    list-style-type: disc;
+    padding: 2px;
+    padding-left: 30px;
+}
+
+
+/******************************************************************************
+APP SPECIFIC
+******************************************************************************/
+
+.frame_header {
+    border: 2px solid chocolate ;
+    border-radius: 4px;
+    background: white;
+}
+
+.frame_entry {
+    border: 2px solid chocolate ;
+    border-radius: 4px;
+    background: white;
+}
+
+
+.card_kingdom {
+    margin: 4px;
+    max-height: 240px;
+    cursor: pointer;
+}
+
+
+.image_actualSize {
+    max-width: 90%;
+    max-height: 1080px;
+}
+
+.image_smallSize {
+    max-width: 150px;
+    max-height: 150px;
+}
+
+.image_smallSize2 {
+    max-width: 200px;
+    max-height: 200px;
+}
+
+
+/******************************************************************************
+JQUERY OVERRIDES
+******************************************************************************/
+
+.ui-tooltip-content {
+    /* affects all $.tooltip */
+    font-family: Salsa !important;
+    font-size: 13pt;
+}
+
+
+.fc-today-button {
+    display: none;
+}
+
+.fc-toolbar {
+    margin-bottom: 8px !important;
+    font-size: 18px !important;
+}
+
+.ui-widget, .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button {
+    /* jquery-ui, sets font of form.label in template */
+    font-family: Impact !important;
+    font-size: 16px !important;
+}
+
+table.dataTable thead th {
+    padding: 10px 10px;
+}
+
+
+.audiojs, .audiojs p {
+    width: 38px;
+    border: none;
+}
+
+.audiojs .play-pause {
+    width: auto;
+}
+
+.scrubber {
+    display: none;
+}
+
+.time {
+    display: none;
+}
+
+#recaptcha_area {
+    /* center the ma'fack */
+    display: table;
+    margin: auto;
+}
+
+/******************************************************************************
+BOOTSTRAP OVERRIDES
+******************************************************************************/
+
+label {
+    font-weight: inherit;
+}
+
+.navbar {
+    margin-bottom: initial;
+    border: 0px;
+    border-radius: 0;
+}
+
+.navbar-default {
+    /* used in collapse menu */
+    background-color: inherit;
+}
+
+.navbar-collapse {
+    padding: 0;
+}
+
+.navbar-fixed-side {
+    overflow: visible;
+    margin: 0;
+}
+
+.navbar-fixed-side .navbar-nav {
+    margin: 0;
+}
+
+.navbar-fixed-side .navbar-collapse {
+    border: 0;
+}
+
+.dropdown-menu {
+    padding: 0;
+    border-radius: 0px;
+}
+
+.navbar-fixed-side .navbar-nav .dropdown-menu {
+    border: none;
+}
+
+.container-fluid {
+    padding: 0;
+}
+
+.row {
+    margin: auto;
+    /* TODO affects inside of pages */
+}
+
+.col-xs-12, .col-xs-11, .col-xs-10, .col-xs-9, .col-xs-8, .col-xs-7, .col-xs-6, .col-xs-5, .col-xs-4, .col-xs-3, .col-xs-2,
+.col-sm-12, .col-sm-11, .col-sm-10, .col-sm-9, .col-sm-8, .col-sm-7, .col-sm-6, .col-sm-5, .col-sm-4, .col-sm-3, .col-sm-2,
+.col-md-12, .col-md-11, .col-md-10, .col-md-9, .col-md-8, .col-md-7, .col-md-6, .col-md-5, .col-md-4, .col-md-3, .col-md-2,
+.col-lg-12, .col-lg-11, .col-lg-10, .col-lg-9, .col-lg-8, .col-lg-7, .col-lg-6, .col-lg-5, .col-lg-4, .col-lg-3, .col-lg-2
+{
+    padding: 0;
+}
+
+
+/******************************************************************************
+END OF FILE
+******************************************************************************/

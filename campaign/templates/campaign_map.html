@@ -1,0 +1,148 @@
+
+{% extends "base_nav.html" %}
+{% load utility_ttags %}
+{% load staticfiles %}
+
+{% block content %}
+
+
+<div id="title_section" class="row">
+    <div class="col-xs-12 format_center">
+        <div class="inner_margin1 frame_header">
+            <span class="font_title">Campaign World</span>
+        </div>
+    </div>
+</div>
+
+
+<div id="world_section" class="row">
+    
+    <div style="display: none;">{% ctrl_status "world" %}</div>
+
+    <div class="col-xs-12 col-sm-6">
+        <div class="display_block inner_margin1 outer_padding2 frame_entry">
+            
+            <div id="decks_group" style="padding: 30px;">
+                <div class="display_table">
+                    <div class="display_row">
+                        {% ctrl_select "mydeck" "Choose Deck" %} 
+                    </div>
+                    <div class="display_row">
+                        {% ctrl_select "powerCard" "Power Card" %}                
+                    </div>
+                </div>
+            </div>
+
+            <div id="deckMsg_group" style="padding: 30px;">
+                {% ctrl_label "deckMsg"  %}
+            </div>
+
+            <div style="padding: 30px;">
+                {% ctrl_radioHoriz "world" world %}
+            </div>
+
+            <div class="format_center">
+                {% ctrl_button "start" "Start Game" %}
+            </div>
+
+        </div>
+    </div>
+    
+</div>
+
+
+<script>
+
+
+$(document).ready(function()
+{      
+    $('body').css('cursor', 'wait');
+    $('#menu_currency').show();   
+
+    var authUser = ( '{{ user.is_authenticated }}' == "True" ? true : false );      
+    var userDecks = $.parseJSON('{{ userDecks | escapejs }}');    
+
+    if (authUser && userDecks)
+    {
+        $.each(userDecks, function(key, value) {
+            $('#mydeck_select').append($('<option>', {value : key }).text(value));
+        });
+
+        $('#decks_group').show();        
+        $('#deckMsg_group').hide();      
+    }
+    else if (authUser)
+    {
+        $('#decks_group').hide();        
+        $('#deckMsg_group').show();        
+        $('#deckMsg_label').text("* Choose your first deck at Headquarters. *");
+    }
+    else 
+    {
+        $('#decks_group').hide();        
+        $('#deckMsg_group').show();        
+        $('#deckMsg_label').text("* Campaign games are for registered users. *");
+    }
+
+
+    var cStage = "{{ progress }}".replace(" ", "");
+    if (!cStage)
+        cStage = "stage1";
+    $radios = $('input:radio[name=world]');
+    $radios.filter( '[value={0}]'.format(cStage) ).prop('checked', true);
+
+    $('#start_button').click(function() {
+        StartGame();
+    });
+    
+    //
+    $('body').css('cursor', 'default');
+});
+
+
+function DisableForm()
+{
+    $('#_select').prop('disabled', true);
+    $('body').css('cursor', 'wait');
+}
+
+function EnableForm()
+{
+    $('#_select').prop('disabled', false);
+    $('body').css('cursor', 'default');    
+}
+
+function StartGame()
+{   
+    var deck = $('#mydeck_select option:selected').text();
+    var stage = $('input[name=world]:checked').val();
+ 
+    DisableForm();
+    
+    $.ajax({
+        type: 'POST',
+        url: '{% url "campaign:campaign_jx" "start_game" %}',
+        data: {'deck': deck, 'stage': stage,},
+        success: function(p_data) {     //cl(p_data);
+            
+            window.location.reload(false);
+            
+        }, 
+        error: function(p_err) {
+            ErrorToStatus(p_err.responseText, "StartGame()", '#world_status');
+        },
+        complete: function() {
+            EnableForm();
+        }
+    });
+}
+
+
+</script>
+
+{% endblock content %}
+
+
+
+
+

@@ -1,0 +1,2299 @@
+
+{% extends "base_nonav.html" %}
+{% load utility_ttags %}
+{% load staticfiles %}
+
+{% block extra_head %}
+    <script src="/static/JS_Classes/CountDownTimer.js"></script>
+    <script src="/static/jQuery/jquery.flip.min.js"></script>
+{% endblock %}
+
+
+{% block content %}
+
+
+<style group="general">
+
+    .board_overlay {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        z-index: 100;
+        pointer-events: none;   /* allow events through */
+        transition: 600ms linear 0s;
+    }
+
+    .side_board {
+        border: 4px solid crimson;
+        border-radius: 5px;
+        margin: 4px;
+        padding: 12px;
+
+        background: #660000; /*darkred; */
+
+        background-size: contain;
+        background-position: center center;     
+        background-repeat: no-repeat;    
+    }
+
+    .side_overlay {
+        position: absolute;
+        padding-top: 12px;
+        width: 100%;
+        min-height: 450px;
+        z-index: 10;
+
+        background-color: rgba(40, 40, 40, .8);
+        text-align: center;
+    }
+
+    .sideOvrl_image {
+        height: 440px;
+
+        padding: 1px;       /* padding is to push border to edge of card */
+        border: 2px solid orange;     
+        border-radius: 19px;
+        box-shadow: 0 0 8px 1px orange, inset 0 0 8px 1px orange;
+    }
+    .sideOvrl_playable {
+        border: 2px solid aqua !important;     
+        box-shadow: 0 0 8px 1px aqua, inset 0 0 8px 1px aqua  !important;
+    }
+
+</style>
+
+<style group="player_state">
+
+    .state_group {
+        margin-bottom: 12px;
+    }
+
+    .format_state {
+        border: 1px solid black;
+        border-radius: 10px;
+        padding: 0px 6px;
+        background-color: rgba(250, 250, 250, .8);
+    }
+
+    .font_currlp {
+        font-size: 200%;
+        font-weight: 900;
+        color: green;
+    }
+
+    .font_maxlp {
+        font-size: 120%;
+        font-weight: bold;
+        color: purple;
+        white-space: nowrap;
+    }
+
+    .lowerLife {
+        background-color: red;
+        box-shadow: 0 0 6px 3px red;
+        border-radius: 50%;
+        color: black !important;
+    }
+
+    .higherLife {
+        background-color: limegreen;
+        box-shadow: 0 0 6px 3px limegreen;
+        border-radius: 50%;
+        color: black !important;
+    }
+
+    .font_states {
+        font-size: 120%;
+        font-weight: bold;
+        color: darkgoldenrod;    
+    }
+
+    .font_name {
+        font-size: 130%;
+        font-weight: bold;
+        color: grey;    
+    }
+
+</style>
+
+<style group="workspace">
+
+    .workspace_group {
+        margin-bottom: 20px;
+    }
+
+    .format_card {
+        width: 165px;
+    }
+
+    .font_workspace {
+        display: block;
+        padding: 6px;
+        line-height: 1;
+        font-size: 140%;
+        font-weight: bold;
+        color: white;
+        text-shadow: -2px -2px 0 black, 2px -2px 0 black, -2px 2px 0 black, 2px 2px 0 black;
+    }
+
+    .font_tooltip {
+        font-family: 'Open Sans',sans-serif;
+        font-size: 450%;    
+        color: black;
+    }
+
+</style>
+
+<style group="phases">
+
+    .phases_group {
+        margin-bottom: 12px;
+    }
+
+    .format_phase {
+        position: relative;     /* for the timer */
+        border-radius: 8px;
+        background-color: rgba(250, 250, 250, .8);
+
+        border: 2px solid crimson;
+        padding: 10px;
+
+        text-align: center;
+        transition: 200ms linear 0s;
+    }
+
+    .phase_highlight {
+        border: 2px solid red;
+        box-shadow: 0 0 5px 3px yellow, inset 0 0 5px 3px yellow;
+        background-color: rgba(230, 195, 0, .8);        /* gold */
+        transition: 200ms linear 0s;
+    }
+
+    .font_phase {
+        font-size: 120%;
+        font-weight: bold;
+        color: crimson;    
+        transition: 200ms linear 0s;
+    }
+
+    .font_highlight {
+        color:  purple; 
+    }
+
+    .timer {
+        position: absolute;
+        top: -40%;
+        left: center;
+
+        padding: 0px 4px;
+        border: 1px solid crimson;
+        border-radius: 4px;
+        
+        background: white;
+        font-size: 130%;
+        font-weight: bold;
+        color: crimson;
+    }
+
+</style>
+
+<style group="hand">
+
+    .hand_group {
+        display: block;
+        padding: 6px;
+        border: 1px solid aqua;
+        border-radius: 5px;
+        background-color: rgba(40, 40, 40, .8);
+    }
+
+    .hand_panel {
+        position: relative;
+    }
+
+    .card_image {
+        position: absolute;
+        width: 165px;
+        cursor: pointer;
+    }
+    .card_image:hover {
+        padding: 1px;       /* padding is to push border to edge of card */
+        border: 2px solid orange;     
+        border-radius: 11px;
+        box-shadow: 0 0 8px 1px orange, inset 0 0 8px 1px orange;
+    }
+
+    .card_playable:hover {
+        border: 2px solid aqua !important;     
+        box-shadow: 0 0 8px 1px aqua, inset 0 0 8px 1px aqua  !important;
+    }
+
+</style>
+
+<style group="middle">
+
+    .middle_board {
+        border: 4px solid brown;
+        border-radius: 5px;
+        margin: 4px;
+        padding: 6px;
+
+        background: AntiqueWhite; 
+    }
+
+    .font_round {
+        font-size: 150%;
+        font-weight: bold;
+        color: darkslateblue;
+        line-height: 1;
+    }
+
+    .font_rcaption {
+        font-size: 120%;
+        color: darkslateblue;
+        line-height: 1;
+    }
+
+
+    .battle_board {
+        position: relative;
+        width: 100%;
+        height: 360px;          /* all children are position absolute */
+        margin-bottom: 6px;
+
+        border: 3px inset grey;
+    }
+
+    .card_spacer {
+        /* non-absolute spacer for card size*/
+        width: 165px;
+        visibility: hidden;
+    }
+
+    .log_group {
+        position: relative;
+        height: 320px;
+
+        background-color: #f2f2f2;
+    }
+
+    .log_overlay {
+        position: absolute;
+        z-index: 1;
+        left: -1px;
+        top: -1px;
+
+        border: 2px solid purple;
+        border-radius: 3px;
+        background-color: aliceblue;
+        box-shadow: 0 0 1px 1px magenta;
+    }
+
+    .log_table {
+        margin: 4px;
+        border: 1px solid black;
+    }
+
+
+    .overlay_player {
+        font-size: 120%;
+        font-weight: bold;
+        color: darkblue;
+    }
+
+    .overlay_damage {
+        text-align: center;
+
+        font-size: 230%;
+        font-weight: bold;
+        color: red;
+    }
+
+    .overlay_effect {
+        font-size: 100%;
+        color: #596673;
+    }
+
+</style>
+
+
+<div id="title_section" class="row">
+    <div class="col-xs-12 format_center">
+        <div class="inner_margin1 frame_header">
+            <span class="font_title">Campaign Battle</span>
+        </div>
+    </div>
+</div>
+
+
+<div id="board_section" class="row" style="position: relative;">
+
+    <div style="display: none;">{% ctrl_status "board" %}</div>
+
+    <div class="board_overlay"></div>
+
+    <div class="col-xs-12 col-xl-5">
+        <div id="side1_board" class="side_board">
+
+            <div style="position: relative; width: 100%;">
+                <div id="side1_overlay" class="side_overlay" style="display: none;">
+
+                </div>
+            </div>
+
+            <div class="state_group">
+                <div class="format_state">
+                    <div class="display_table">
+                        <div class="display_row">
+
+                            <div class="display_cellM" style="width: 20%;">
+                                <div class="display_block inner_margin2 format_center">
+                                    <span id="currlp1_text" class=" font_currlp"> * </span> <br>
+                                    <span id="maxlp1_text" class="font_maxlp"> Max: </span>                           
+                                </div>
+                            </div>
+
+                            <div class="display_cellM" style="min-width: 80px;">
+                                <div class="display_block inner_margin2 format_center">
+                                    <img id="attack1_image" class="" src=""/> <br>
+                                    <span class="font_states">Attack</span>                           
+                                </div>
+                            </div>
+
+                            <div class="display_cellM" style="min-width: 80px;">
+                                <div class="display_block inner_margin2 format_center">
+                                    <img id="defense1_image"  class="" src=""/> <br>
+                                    <span class="font_states">Defense</span>                           
+                                </div>
+                            </div>
+
+                            <div class="display_cellM" style="min-width: 80px;">
+                                <div class="display_block inner_margin2 format_center">
+                                    <img id="spell1_image"  class="" src=""/> <br>
+                                    <span class="font_states">Spell</span>                           
+                                </div>
+                            </div>
+
+                            <div class="display_cellM" style="width: 100%;">
+                                <div class="display_block inner_margin2" style="text-align: right;">
+                                    <span id="user1_text" class="font_name"></span> <br>                    
+                                    <span id="deck1_text" class="font_name"></span>                           
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="workspace_group">
+                <div class="display_table format_full">
+                    <div class="display_row">
+
+                        <div class="display_cellM" style="width: 33.3%;">
+                            <div class="format_center">
+                                <img id="deck1_image" class="format_card" src="/static/cards/0_cardback.png"/> <br>
+                                <span class="font_workspace">Deck</span> 
+                            </div>
+                        </div>
+
+                        <div class="display_cellM" style="width: 33.3%;">
+                            <div class="format_center">
+                                <img id="discard1_image" class="format_card" src="/static/cards/0_nocard.png"/> <br>
+                                <span class="font_workspace">Discard</span> 
+                            </div>
+                        </div>
+
+                        <div class="display_cellM" style="width: 33.3%;">
+                            <div class="format_center">
+
+                                <div class="format_card display_center">
+                                    <div id="power_flip"> 
+                                        <img id="powerFront_image" src="/static/cards/0_cardback.png"/> 
+                                        <img id="powerBack_image" src="/static/cards/amniss_p_celerity.png"/> 
+                                    </div>
+                                </div>
+
+                                <span class="font_workspace">Power</span> 
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="phases_group">
+                <div class="display_table format_full">
+                    <div class="display_row">
+
+                        <div class="display_cellM" style="width: 25%;">
+                            <div id="draw1_phase" class="format_phase">
+                                <span class="timer" style="display: none;"></span> 
+                                <span class="font_phase">Draw</span> 
+                            </div>
+                        </div>
+
+                        <div class="display_cellM" style="width: 25%;">
+                            <div id="attack1_phase" class="format_phase">
+                                <span class="timer" style="display: none;"></span> 
+                                <span class="font_phase">Attack</span> 
+                            </div>
+                        </div>
+
+                        <div class="display_cellM" style="width: 25%;">
+                            <div id="spell1_phase" class="format_phase">
+                                <span class="timer" style="display: none;"></span> 
+                                <span class="font_phase">Spell</span> 
+                            </div>
+                         </div>
+
+                        <div class="display_cellM" style="width: 25%;">
+                            <div id="discard1_phase" class="format_phase">
+                                <span class="timer" style="display: none;"></span> 
+                                <span class="font_phase">Discard</span> 
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="hand_group">
+                <div id="hand1_panel" class="hand_panel">
+                    <!-- the hand elements are position:absolute and are added dynamically -->
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="col-xs-12 col-xl-2">
+        <div class="middle_board">
+
+            <div style="margin-bottom: 6px;">         
+                <div class="display_block format_center">
+                    {% ctrl_label "round" "Round: 0" "font_round" %}
+                </div>
+                <div class="display_block format_center">
+                    {% ctrl_label "rcaption" "First Player: X" "font_rcaption" %}
+                </div>
+            </div>
+
+            <div class="battle_board">
+                <div style="position: absolute; left: 6px; top: 6px; z-index: 1;">
+                    <img id="battle_primary" src="{{ cardBack }}" class="card_spacer"/>
+                </div>
+                <div style="position: absolute; right: 6px; top: 90px; z-index: 2;">
+                    <img id="battle_primDef" src="{{ cardBack }}" class="card_spacer"/>
+                </div>
+
+                <!--
+                <div style="position: absolute; left: 6px; top: 270px; z-index: 1;">
+                    <img id="battle_secondary" src="{{ cardBack }}" class="card_spacer"/>
+                </div>
+                <div style="position: absolute; right: 6px; top: 350px; z-index: 2;">
+                    <img id="battle_secDef" src="{{ cardBack }}" class="card_spacer"/>
+                </div>
+                -->
+            </div>
+
+            <div class="log_group">
+
+                <div class="log_overlay" style="display: none;">
+
+                    <div style="padding: 6px 0px 0px 6px;">
+                        {% ctrl_label "defending" "Defending: " "overlay_player" %}
+                    </div>
+                    <table id="defender_table" style="width: 100%;">
+                        <tr>
+                            <td id="defDMG_label" class="overlay_damage" rowspan="4">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td id="defDmg1_label" class="overlay_effect">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td id="defDmg2_label" class="overlay_effect">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td id="defDmg3_label" class="overlay_effect">
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="format_center" style="padding: 0 0 0 6px;">
+                        {% ctrl_label "defFx1" "None" "overlay_effect" %} <br>
+                        {% ctrl_label "defFx2" "None" "overlay_effect" %}
+                    </div>
+
+                    <hr class="" style="margin: 0px 6px 0px 6px; border-bottom: 1px solid black;">                 
+
+                    <div style="padding: 6px 0px 0px 6px;">
+                        {% ctrl_label "attacking" "Attacking: " "overlay_player" %}
+                    </div>
+                    <table id="attacker_table" style="width: 100%;">
+                        <tr>
+                            <td id="attDMG_label"  class="overlay_damage" rowspan="4">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td id="attDmg1_label" class="overlay_effect">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td id="attDmg2_label" class="overlay_effect">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td id="attDmg3_label" class="overlay_effect">
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="format_center" style="padding: 0 0 0 6px;">
+                        {% ctrl_label "attFx1" "None" "overlay_effect" %} <br>
+                        {% ctrl_label "attFx2" "None" "overlay_effect" %}
+                    </div>
+                </div>
+
+                <div class="log_table" style="display: none; ">
+                    {% ctrl_table "log" %}
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="col-xs-12 col-xl-5">
+        <div id="side2_board" class="side_board">
+
+           <div style="position: relative; width: 100%;">
+                <div id="sideX_overlay" class="side_overlay" style="display: none;">
+
+                </div>
+            </div>
+
+            <div class="state_group">
+                <div class="format_state">
+                    <div class="display_table">
+                        <div class="display_row">
+
+                            <div class="display_cellM" style="width: 20%;">
+                                <div class="display_block inner_margin2 format_center">
+                                    <span id="currlp2_text" class="font_currlp"> * </span> <br>
+                                    <span id="maxlp2_text" class="font_maxlp"> Max: </span>                           
+                                </div>
+                            </div>
+
+                            <div class="display_cellM" style="min-width: 80px;">
+                                <div class="display_block inner_margin2 format_center">
+                                    <img id="attack2_image" class="" src=""/> <br>
+                                    <span class="font_states">Attack</span>                           
+                                </div>
+                            </div>
+
+                            <div class="display_cellM" style="min-width: 80px;">
+                                <div class="display_block inner_margin2 format_center">
+                                    <img id="defense2_image"  class="" src=""/> <br>
+                                    <span class="font_states">Defense</span>                           
+                                </div>
+                            </div>
+
+                            <div class="display_cellM" style="min-width: 80px;">
+                                <div class="display_block inner_margin2 format_center">
+                                    <img id="spell2_image"  class="" src=""/> <br>
+                                    <span class="font_states">Spell</span>                           
+                                </div>
+                            </div>
+
+                            <div class="display_cellM" style="width: 100%;">
+                                <div class="display_block inner_margin2" style="text-align: right;">
+                                    <span id="user2_text" class="font_name"></span> <br>                    
+                                    <span id="deck2_text" class="font_name"></span>                           
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="workspace_group">
+                <div class="display_table format_full">
+                    <div class="display_row">
+
+                        <div class="display_cellM" style="width: 33.3%;">
+                            <div class="format_center">
+                                <img id="deck2_image" class="format_card" src="/static/cards/0_cardback.png"/> <br>
+                                <span class="font_workspace">Deck</span> 
+                            </div>
+                        </div>
+
+                        <div class="display_cellM" style="width: 33.3%;">
+                            <div class="format_center">
+                                <img id="discard2_image" class="format_card" src="/static/cards/0_nocard.png"/> <br>
+                                <span class="font_workspace">Discard</span> 
+                            </div>
+                        </div>
+
+                        <div class="display_cellM" style="width: 33.3%;">
+                            <div class="format_center">
+                                <img id="power2_image" class="format_card" src="/static/cards/0_cardback.png"/> <br>
+                                <span class="font_workspace">Power</span> 
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="phases_group">
+                <div class="display_table format_full">
+                    <div class="display_row">
+
+                        <div class="display_cellM" style="width: 25%;">
+                            <div id="draw2_phase" class="format_phase">
+                                <span class="timer" style="display: none;"></span> 
+                                <span class="font_phase">Draw</span> 
+                            </div>
+                        </div>
+
+                        <div class="display_cellM" style="width: 25%;">
+                            <div id="attack2_phase" class="format_phase">
+                                <span class="timer" style="display: none;"></span> 
+                                <span class="font_phase">Attack</span> 
+                            </div>
+                        </div>
+
+                        <div class="display_cellM" style="width: 25%;">
+                            <div id="spell2_phase" class="format_phase">
+                                <span class="timer" style="display: none;"></span> 
+                                <span class="font_phase">Spell</span> 
+                            </div>
+                         </div>
+
+                        <div class="display_cellM" style="width: 25%;">
+                            <div id="discard2_phase" class="format_phase">
+                                <span class="timer" style="display: none;"></span> 
+                                <span class="font_phase">Discard</span> 
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="hand_group">
+                <div id="hand2_panel" class="hand_panel">
+                    <!-- the hand elements are position:absolute and are added dynamically -->
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+
+<!-- dialog window -->
+
+<div id="setup_dialog" title="Game Setup" style="">
+
+    <div class="display_table">
+        <div class="display_row">
+            <div class="display_cellM">
+                <div class="format_center">
+                    <div class="inner_margin2">
+                       <img style="height: 110px;" src="/static/graphics/coin_toss.png"> </img>
+                    </div>
+                </div>
+            </div>
+            <div class="display_cellT" style="width: 100%;">
+                <div class="format_center">
+                    {% ctrl_label "stp" "Coin Toss" "font_strong" %} 
+                    {% ctrl_label "stpFirst" "First Player:" %}
+                    <br> <br>
+
+                    <span class="inner_margin2" style="">Game Start: </span>
+                    <span class="inner_margin2" id="setup_timer" 
+                        style="color: crimson; font-weight: bold;"></span>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<script>
+
+
+$(document).ready(function()
+{      
+    $('body').css('cursor', 'wait');
+
+
+    var gameData = $.parseJSON('{{ gameData | escapejs }}');            cl(gameData);
+
+    DisplaySide(gameData.player1, "1");
+    DisplaySide(gameData.player2, "2");
+
+    $('#round_label').text( "Round: {0}".format(gameData.round) );
+    $('#rcaption_label').text( "First Player: {0}".format(gameData.firstPl) );
+
+
+    // display setup dialog 
+
+    $('#setup_dialog').dialog({
+        'autoOpen': false,
+        'draggable': false,
+        'resizable': false,
+        'width': '380px',
+        'closeOnEscape': false,
+        'open': function(event, ui) {
+            $(".ui-dialog-titlebar-close", ui.dialog | ui).hide();
+        },
+        'hide': { effect: "fade", duration: 600 }
+    });
+
+    if (gameData.phase == "setup")
+        DisplaySetupWindow(gameData);
+
+
+    // connect to websocket 
+
+    var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
+    var chanGroup = "cg_" + gameData.player1.user;
+    var address = "{0}://{1}/campaign/{2}/".format(ws_scheme, window.location.host, chanGroup);
+    var socket = new WebSocket(address);
+    socket.isOpen = false;
+    
+    socket.onopen = function() 
+    {
+        if (!socket.isOpen)
+        {
+            socket.isOpen = true;
+        }
+        else
+        {
+            var newChat = "new chat";
+            socket.send(newChat);
+        }
+    }
+    
+    socket.onmessage = function(p_event)
+    {
+        HandleGameMessage(p_event.data);
+    }
+
+
+    //
+    $('body').css('cursor', 'default');
+});
+
+
+$(window).on('load', function() 
+{
+    // the hand panels only have position: absolute children, so they must be sized with js
+    // was originally using a spacer card, but that makes it harder to move the cards 
+
+    var cardHeight = $('#deck1_image').height();
+
+    $('#hand1_panel').css('height', cardHeight);   
+    $('#hand2_panel').css('height', cardHeight);   
+
+
+    // resize the side overlay 
+    // parent has a padding of 12px
+
+    var oWidth = $('#side1_overlay').width(); 
+    var oHeight = $('.state_group').height() + $('.workspace_group').height();
+    oHeight += $('.phases_group').height() +12 *5 -4; 
+    var oLeft = $('#side1_overlay').offset().left;    
+    var oTop = $('#side1_overlay').offset().top;    
+
+    $('#side1_overlay').css('width', oWidth +24);   
+    $('#side1_overlay').css('height', oHeight );   
+    $('#side1_overlay').css('left', oLeft -12);   
+    $('#side1_overlay').css('top', oTop -12);   
+
+    // resize the log overlay 
+
+    var oWidth = $('.log_group').width(); 
+    $('.log_overlay').css('width', oWidth +2 ); 
+});
+
+
+/* GLOBALS */
+
+
+var CARDBACK_PATH = "{{ cardBack }}"
+var NOCARD_PATH = "{{ noCard }}"
+var TEST_PATH = "/static/cards/0_test.png"
+var HAND_INDEX = 0;
+var BATTLE_TIMER = null;
+
+
+// tooltip for hovering over controls
+function GameTooltip(p_elemId, p_message, p_position)
+{
+    var position = {my: 'center center', at: 'center center'};
+
+    if (p_position == 'bottom')
+        position = {my: 'center top', at: 'center bottom+10%'}
+
+    $(p_elemId).tooltip({
+        'items': p_elemId,
+        'tooltipClass': 'font_tooltip',
+        'content': p_message,
+        'position': position,
+    });
+}
+
+
+// tooltip for temporary message
+function FlashTooltip(p_elemId, p_message, p_position)
+{
+    var position = {my: 'center center', at: 'center center'};
+
+    if (p_position == 'bottom')
+        position = {my: 'center top', at: 'center bottom+10%'}
+
+    $(p_elemId).tooltip({
+        'items': ':not(:hover)', 
+        'tooltipClass': 'font_tooltip',
+        'content': p_message,
+        'position': position,
+    });
+}
+
+
+// helper that returns hand card positions relative to parent
+function GetCardPositions(p_numCards)
+{
+    var matrix = [];
+    matrix[0] = [''];
+    matrix[1] = ['39.0%'];
+    matrix[2] = ['26.0%', '51.0%'];
+    matrix[3] = ['15.0%', '39.0%', '63.0%'];
+    matrix[4] = ['7.00%', '28.0%', '49.0%', '70.0%'];                  
+    matrix[5] = ['4.00%', '22.0%', '40.0%', '58.0%', '76.0%'];
+    matrix[6] = ['0.00%', '15.2%', '30.4%', '45.6%', '60.8%', '76.0%'];           
+    matrix[7] = ['0.00%', '12.7%', '25.3%', '38.0%', '50.7%', '63.3%', '76.0%']; 
+    matrix[8] = ['0.00%', '10.9%', '21.7%', '32.6%', '43.4%', '54.3%', '65.1%', '76.0%']; 
+    matrix[9] = ['0.00%', '9.50%', '19.0%', '28.5%', '38.0%', '47.5%', '57.0%', '66.5%', '76.0%']; 
+
+    return matrix[p_numCards];
+}
+
+
+/* DISPLAY FUNCTIONS */
+
+
+function DisplaySetupWindow(p_gameData)
+{
+    $('.board_overlay').css('background', 'rgba(200, 200, 200, 0.6)');
+    $('#side1_overlay').css('background', 'rgba(0,0,0, 0)');
+
+    $('#stpFirst_label').text( "First Player: {0}".format(p_gameData.firstPl) );
+
+    var display = $('#setup_timer');        
+    display = display[0];   // convert to other type of elem
+    var timer = new CountDownTimer( p_gameData.remainDuration );
+    timer.onTick(format); 
+    timer.start();
+
+    function format(minutes, seconds) 
+    {
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+        display.textContent = minutes + ':' + seconds;
+    }
+
+    $('#setup_dialog').dialog('open');
+}
+
+
+function DisplaySide(p_player, p_no)
+{
+    // var width = $( '#side{0}_board'.format(p_no) ).width();
+    // var height = $( '#side{0}_board'.format(p_no) ).height();
+    // var randX = GetRandomInt(0, width);
+    // var randY = GetRandomInt(0, height);
+    // $( '#side{0}_board'.format(p_no) ).css( 'background-position', '{0}px {1}px'.format(randX, randY) );
+
+    // player state
+
+    $( '#side{0}_board'.format(p_no) ).css( 'background-image', 'url({0})'.format(p_player.roster_im) );
+
+    $( '#currlp{0}_text'.format(p_no) ).text(p_player.currlp);
+    $( '#maxlp{0}_text'.format(p_no) ).text( "Max: {0}".format(p_player.maxlp) );
+
+    $( '#user{0}_text'.format(p_no) ).text( p_player.user );
+    $( '#deck{0}_text'.format(p_no) ).text( p_player.kingdom );
+
+    // workspace 
+
+    if (p_no == 1)
+    {
+        $('#power_flip').flip({
+            trigger: 'click',
+            // 'speed': 1000,
+            front: '#powerFront_image',
+            back: '#powerBack_image'
+        });
+    }
+
+    $( '#discard{0}_image'.format(p_no) ).attr('src', p_player.discardPath);
+    
+    GameTooltip( '#deck{0}_image'.format(p_no), "Cards: {0}".format(p_player.deckCnt), '' );
+    GameTooltip( '#discard{0}_image'.format(p_no), "Cards: {0}".format(p_player.discardCnt), '' );
+
+
+    // cards in hand
+
+    var numCards = ( p_player.hand.length < 9 ? p_player.hand.length : 8 );
+    var handPoss = GetCardPositions(numCards);
+    var handIndex;
+
+    $.each(p_player.hand, function(idx, card) {
+        var pos = handPoss[idx];
+
+        HAND_INDEX++;
+        var handId = 'hand{0}{1}_image'.format(p_no, HAND_INDEX);
+        var html = '<img id="{0}" class="card_image" src="{1}" style="left: {2};" />';
+        html = html.format(handId, card.file, pos);
+
+        $( '#hand{0}_panel'.format(p_no) ).append(html);
+        $( '#' + handId ).attr('cardType', card.cType);
+        $( '#' + handId ).attr('cardName', card.name);
+
+        if (p_no == 1)
+        {
+            AttachHandHover('#' + handId);
+            AttachHandClick('#' + handId);  
+        }
+
+    });
+}
+
+
+function AdvancePhase(p_gameData, p_funcChain)
+{
+
+    RemoveHighlight(p_gameData);
+
+    setTimeout( function() {
+        var audio = new Audio('/static/soundfx/phase_tick.mp3');
+        $(audio).prop("volume", 0.8);   
+       // audio.play();
+    }, 300);
+
+    setTimeout( function() {
+        HighlightPhase(p_gameData);
+    }, 600);
+
+
+    function RemoveHighlight(p_gameData)
+    {
+        if (p_gameData.oldPhase == "setup" )
+            return;
+
+        // remove styling from phase
+
+        var playerT = p_gameData.playerTurn;
+        if (p_gameData.oldPhase == "discard")
+            playerT = ( playerT == 1 ? 2 : 1 );
+
+        var phase = '#{0}{1}_phase'.format(p_gameData.oldPhase, playerT); 
+
+        $(phase).removeClass('phase_highlight');
+        $(phase).find('.font_phase').removeClass('font_highlight');
+
+        if (p_gameData.playerTurn == 1)
+            $(phase).css('cursor', 'default');
+
+        // hide the phase's timer
+
+        var display = $(phase).find('.timer');
+        display.hide(200);    
+
+        // unhook events 
+
+        if( $(phase).data('ui-tooltip') )
+        {
+            $(phase).tooltip('destroy');
+            $(phase).off('click');
+        }
+
+        // 
+
+    }
+
+
+    function HighlightPhase(p_gameData)
+    {
+        // style the current phase
+
+        var phase = '#{0}{1}_phase'.format(p_gameData.phase, p_gameData.playerTurn);      // ex: #draw1_phase, #attack1_phase
+
+        $(phase).addClass('phase_highlight');
+        $(phase).find('.font_phase').addClass('font_highlight');
+
+        if (p_gameData.playerTurn == 1)
+            $(phase).css('cursor', 'pointer');
+
+        // run the timer
+
+        var display = $(phase).find('.timer');
+        display.show(200);    
+
+        display = display[0];   // convert to other type of elem
+        var timer = new CountDownTimer( p_gameData.remainDuration );
+        timer.onTick(format); 
+        timer.start();
+        BATTLE_TIMER = timer;
+
+        function format(minutes, seconds) 
+        {
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+            display.textContent = minutes + ':' + seconds;
+        }
+
+        // hook event and tooltip for on-player
+
+        if (p_gameData.playerTurn == 2)
+            return;
+
+        if (p_gameData.phase == "draw")
+        {
+            GameTooltip(phase, "Click To Draw", 'bottom');
+
+            $(phase).click(function() {
+                ClickDraw();
+            });
+        }
+
+        else if (p_gameData.phase == "attack")
+        {
+            GameTooltip(phase, "Click To Skip", 'bottom');
+
+            $(phase).click(function() {
+                ClickSkip();
+            });
+
+            var handPanel_jq = '#hand{0}_panel'.format(p_gameData.playerTurn); 
+
+            $.each($(handPanel_jq).children(), function(idx, card_elem) {
+                var cType = $(card_elem).attr('cardType');     
+                if (cType == 'A')
+                    $(card_elem).addClass('card_playable');
+            });
+        }
+
+        else if (p_gameData.phase == "spell")
+        {
+            GameTooltip(phase, "Click To Skip", 'bottom');
+
+            $(phase).click(function() {
+                ClickSkip();
+            });
+
+            var handPanel_jq = '#hand{0}_panel'.format(p_gameData.playerTurn); 
+
+            $.each($(handPanel_jq).children(), function(idx, card_elem) {
+                var cType = $(card_elem).attr('cardType');     
+                if (cType == 'S')
+                    $(card_elem).addClass('card_playable');
+                else
+                    $(card_elem).removeClass('card_playable');                    
+            });
+        }
+
+        else if (p_gameData.phase == "discard")
+        {
+            GameTooltip(phase, "Click To Skip", 'bottom');
+
+            $(phase).click(function() {
+                
+            });
+
+            var handPanel_jq = '#hand{0}_panel'.format(p_gameData.playerTurn); 
+
+            $.each($(handPanel_jq).children(), function(idx, card_elem) {
+                $(card_elem).removeClass('card_playable');                    
+            });
+        }
+
+    }
+}
+
+
+function ShowDefensePhase(p_gameData, p_funcChain)
+{
+
+    setTimeout( function() {
+        var audio = new Audio('/static/soundfx/phase_tick.mp3');
+        $(audio).prop("volume", 0.8);   
+       // audio.play();
+    }, 0);
+
+    // style the on-player's phase
+
+    if (p_gameData.playerTurn == 1)
+    {
+        $('#attack1_phase').css('cursor', 'default');
+    }
+
+    // style the other player's attack phase as the defense phase
+
+    HighlightDefense(p_gameData);
+
+    function HighlightDefense(p_gameData)
+    {
+        var playerT = ( p_gameData.playerTurn == 1 ? 2 : 1 );
+        var phase = '#attack{0}_phase'.format(playerT);           
+
+        $(phase).addClass('phase_highlight');
+        $(phase).find('.font_phase').addClass('font_highlight');
+        $(phase).find('.font_phase').text("Defense");
+
+        if (playerT == 1)
+        {
+            $('#attack1_phase').css('cursor', 'pointer');
+            $('#attack1_phase').click(function() {
+                ClickSkipDefend();
+            });
+
+            GameTooltip('#attack1_phase', "Click To Pass", 'bottom');
+        }
+
+        // run the timer
+
+        var display = $(phase).find('.timer');
+        display.show(200);    
+
+        display = display[0];   // convert to other type of elem
+        var timer = new CountDownTimer( p_gameData.remainDuration );
+        timer.onTick(format); 
+        timer.start();
+
+        function format(minutes, seconds) 
+        {
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+            display.textContent = minutes + ':' + seconds;
+        }
+    }
+}
+
+
+function EndDefensePhase(p_gameData)
+{
+    setTimeout( function() {
+        var audio = new Audio('/static/soundfx/phase_tick.mp3');
+        $(audio).prop("volume", 0.8);   
+       // audio.play();
+    }, 300);
+
+    setTimeout( function() {
+        var playerT = ( p_gameData.playerTurn == 1 ? 2 : 1 );
+        var phase = '#attack{0}_phase'.format(playerT);      
+
+        $(phase).removeClass('phase_highlight');
+        $(phase).find('.font_phase').removeClass('font_highlight');
+        $(phase).find('.font_phase').text("Attack");
+
+        if (playerT == 1 && $(phase).data('ui-tooltip'))
+        {
+            $('#attack1_phase').css('cursor', 'default');
+            $('#attack1_phase').tooltip('destroy');
+            $('#attack1_phase').off('click');
+        }
+
+        // stop the timer
+
+        var display = $(phase).find('.timer');
+        display.hide(200);          
+    }, 400)
+  
+}
+
+
+/* ANIMATION FUNCTIONS */
+
+
+function LargerHandAnimation(p_gameData, p_funcChain)
+{
+    // assume card has not already been added to panel - move only the existing cards
+
+    var noSteps = 30;
+    var duration = 800;
+    var cStep = 0;
+
+    // get starting position for hand cards
+
+    var panel_jq = $( '#hand{0}_panel'.format(p_gameData.playerTurn) );
+
+    var hand_pstn = [];
+    $.each(panel_jq.children(), function(idx, hand_el) {
+        var hand_ps = $(hand_el).position().left;      
+        hand_pstn.push(hand_ps);
+    });
+
+    // get ending position for hand cards
+    // skip the first card, since new cards are not moved
+
+    var panelW = panel_jq.width();
+    var handPerc = GetCardPositions(p_gameData.hand.length);     
+
+    var endHand_pstn = [];
+    $.each(handPerc, function(idx, perc) {
+        if (idx == 0)
+            return;
+
+        var endLeft = panelW * parseFloat(perc) / 100.0;
+        endHand_pstn.push(endLeft);
+    });    
+
+    // get the animation increment for each card being moved
+
+    var shiftIncr = []
+    for (var h = 0; h < hand_pstn.length; h++) 
+    {
+        var incr = (endHand_pstn[h] - hand_pstn[h]) / noSteps;
+        shiftIncr.push(incr);
+    }
+
+    $.each(panel_jq.children(), function(idx, hand_el) {
+        $( hand_el ).css('left', '{0}px'.format(hand_pstn[idx]));
+    });
+
+    // cl(p_gameData.hand.length);     
+    // cl(hand_pstn);
+    // cl(endHand_pstn);
+
+    // launch animation
+
+    var shift_intr = setInterval(ShiftAnimStep, duration / noSteps);
+
+    function ShiftAnimStep()
+    {    
+        $.each(panel_jq.children(), function(idx, hand_el) {
+            $( hand_el ).css('left', '{0}px'.format(hand_pstn[idx]));
+        });
+
+        $.each(hand_pstn, function(idx, left) {
+            hand_pstn[idx] += shiftIncr[idx];
+        });  
+
+        cStep++;
+        if (cStep > noSteps)
+        {
+            clearInterval(shift_intr);  
+
+            if (p_funcChain)
+            {
+                var delegate = p_funcChain.shift();
+                delegate(p_gameData, p_funcChain);
+            }
+        }
+    }
+}
+
+
+function SmallerHandAnimation(p_gameData, p_funcChain)
+{
+    // assume card has already been removed from panel
+    // calculate card trajectories
+
+    var noSteps = 30;
+    var duration = 800;
+    var cStep = 0;
+
+    // get starting position for hand cards
+
+    var panel_jq = $( '#hand{0}_panel'.format(p_gameData.playerTurn) );
+
+    var hand_pstn = [];
+    $.each(panel_jq.children(), function(idx, hand_el) {
+        var hand_pos = $(hand_el).position().left;      
+        hand_pstn.push(hand_pos);
+    });
+
+    // get ending position for hand cards
+
+    var panelW = panel_jq.width();
+    var handPerc = GetCardPositions(panel_jq.children().length);     
+
+    var endHand_pstn = [];
+    $.each(handPerc, function(idx, perc) {
+        var left = panelW * parseFloat(perc) / 100.0;
+        endHand_pstn.push(left);
+    }); 
+
+    // get the animation increment for each card being moved    
+
+    var shiftIncr = []
+    for (var h = 0; h < hand_pstn.length; h++) 
+    {
+        var incr = (endHand_pstn[h] - hand_pstn[h]) / noSteps;
+        shiftIncr.push(incr);
+    }
+
+    $.each(panel_jq.children(), function(idx, hand_el) {
+        $( hand_el ).css('left', '{0}px'.format(hand_pstn[idx]));
+    });
+
+    // display the animation
+
+    var shift_intr = setInterval(ShiftAnimStep, duration / noSteps);
+
+    function ShiftAnimStep()
+    {    
+        $.each(panel_jq.children(), function(idx, hand_el) {
+            $( hand_el ).css('left', '{0}px'.format(hand_pstn[idx]));
+        });
+
+        $.each(hand_pstn, function(idx, hand_pos) {
+            hand_pstn[idx] += shiftIncr[idx];
+        });  
+
+        cStep++;
+        if (cStep > noSteps)
+        {
+            clearInterval(shift_intr);  
+        }
+    }
+}
+
+
+function AnimateDraw(p_gameData, p_funcChain) 
+{
+    var noSteps = 40;
+    var duration = 1200;
+    var cStep = 0;
+
+    // calculate card trajectory
+
+    var overlay_jq = $( '.board_overlay' );      
+    var deck_jq = $( '#deck{0}_image'.format(p_gameData.playerTurn) );     
+    var card_pos = { 'x': deck_jq.offset().left - overlay_jq.offset().left,
+                     'y': deck_jq.offset().top - overlay_jq.offset().top }; 
+
+    var endDraw_pos = { 'x': card_pos.x +105, 'y': card_pos.y +105 }; 
+
+    var incr_pos = { 'x': (endDraw_pos.x - card_pos.x) / noSteps, 
+                     'y': (endDraw_pos.y - card_pos.y) / noSteps }; 
+
+    // create html for moving with animation
+
+    if (p_gameData.playerTurn == 1)
+    {
+        var html = '                        \
+            <div id="card_mover" class="format_card" style="position: relative;">    \
+                <div id="mover_flip" >      \
+                    <img id="moverFront_image" class="format_card" src="{0}"/>       \
+                    <img id="moverBack_image"  class="format_card" src="{1}"/>       \
+                </div>                      \
+            </div>'.format(CARDBACK_PATH, p_gameData.newDict[0].path);
+
+        $('.board_overlay').html(html);
+
+        $('#mover_flip').flip({
+            'trigger': 'manual',
+            'speed': duration -200,    
+            'front': '#moverFront_image',
+            'back': '#moverBack_image'
+        });
+    }
+
+    else 
+    {
+        var html = '                    \
+            <div id="card_mover" class="format_card" style="position: relative;">   \
+                    <img class="format_card" src="{0}"/>                \
+            </div>'.format(CARDBACK_PATH);
+
+        $('.board_overlay').html(html);        
+    }
+
+    $('#card_mover').css('left', '{0}px'.format(card_pos.x));
+    $('#card_mover').css('top', '{0}px'.format(card_pos.y));
+
+
+    // launch animations
+
+    if (p_gameData.playerTurn == 1)
+    {
+        setTimeout( function() {
+            // must be in time out to flip slowly
+            // is the flip initialized asynchronously ?
+            $('#mover_flip').flip('toggle');
+        }, 100);
+    }
+
+    var anim_intr = setInterval(DrawAnimStep, duration / noSteps);
+
+    function DrawAnimStep()
+    {    
+        $('#card_mover').css('left', '{0}px'.format(card_pos.x));
+        $('#card_mover').css('top',  '{0}px'.format(card_pos.y));
+
+        card_pos.x += incr_pos.x;
+        card_pos.y += incr_pos.y;
+
+        cStep++;
+
+        if (cStep > noSteps)
+        {
+            clearInterval(anim_intr);  
+
+            AnimateToHand();
+
+            LargerHandAnimation(p_gameData, p_funcChain);
+        }
+    }
+
+    function AnimateToHand()
+    {    
+        var noSteps = 30;
+        var duration = 800;
+        var cStep = 0;
+
+        var panel_jq = $( '#hand{0}_panel'.format(p_gameData.playerTurn) );
+        var handPerc = GetCardPositions(p_gameData.hand.length);
+        var endLeft = panel_jq.width() * parseFloat(handPerc[0]) / 100.0  ;     // endLeft is relative to the hand panel
+
+        var endTop = panel_jq.offset().top - overlay_jq.offset().top ;
+
+        var endLeftOvrl = endLeft + panel_jq.position().left;    // endLeftOvrl needs panel to go to other side  
+
+        if (p_gameData.playerTurn == 2)
+            endLeftOvrl += $('#side2_board').offset().left - overlay_jq.offset().left -4;
+
+        var incr_pos = { 'x': (endLeftOvrl - card_pos.x) / noSteps, 
+                         'y': (endTop - card_pos.y) / noSteps }; 
+        
+        var anim_intr = setInterval(HandAnimStep, duration / noSteps);
+
+        function HandAnimStep()
+        {    
+            $('#card_mover').css('left', '{0}px'.format(card_pos.x));
+            $('#card_mover').css('top', '{0}px'.format(card_pos.y));
+
+            card_pos.x += incr_pos.x;
+            card_pos.y += incr_pos.y;
+
+            cStep++;
+
+            if (cStep > noSteps)
+            {
+                clearInterval(anim_intr);  
+
+                // append new card to front of panel to facilitate moving it later
+                // use timeout so that hand shifting has time to finish before appending new element
+
+                setTimeout(function() {
+
+                    HAND_INDEX++;
+                    var newCard = "hand{0}{1}_image".format(p_gameData.playerTurn, HAND_INDEX);
+                    var html = '<img id="{0}" class="card_image" src="{1}" style="left: {2}px; " />';
+                    html = html.format(newCard, p_gameData.newDict[0].path, endLeft);         
+
+                    panel_jq.insertAtIndex(0, html);
+                    $( '#' + newCard ).attr('cardType', p_gameData.newDict[0].type);
+                    $( '#' + newCard ).attr('cardName', p_gameData.newDict[0].card);
+                    
+                    AttachHandHover('#' + newCard);
+                    AttachHandClick('#' + newCard); 
+
+                    $.each(panel_jq.children(), function(idx, hand_el) {
+                        $(hand_el).css('z-index', idx);
+                    });
+
+                    $('.board_overlay').empty();  
+
+                }, 200);
+            }
+        }
+    }
+}
+
+
+function AnimateBattle(p_gameData, p_funcChain) 
+{
+    var noSteps = 40;
+    var duration = 1200;
+    var cStep = 0;
+
+
+    // calculate card trajectory
+
+    var overlay_jq = $( '.board_overlay' ); 
+    var panel_jq = $( '#hand{0}_panel'.format(p_gameData.playerTurn) );
+    var card_jq = $(panel_jq.children()[p_gameData.handPos]);
+
+    var card_pos = { 'x': card_jq.offset().left - overlay_jq.offset().left,
+                     'y': card_jq.offset().top - overlay_jq.offset().top }; 
+
+    var endImage_jq = $( '#discard{0}_image'.format(p_gameData.playerTurn) );
+    var endPick_pos = { 'x': endImage_jq.offset().left, 'y': card_pos.y -210 }; 
+
+    var incr_pos = { 'x': (endPick_pos.x - card_pos.x) / noSteps, 
+                     'y': (endPick_pos.y - card_pos.y) / noSteps }; 
+
+
+    // create html for moving with animation
+
+    if (p_gameData.playerTurn == 1)
+    {
+        var html = '                    \
+            <div id="card_mover" class="format_card" style="position: relative;">   \
+                    <img id="" class="format_card" src="{0}"/>                      \
+            </div>'.format(p_gameData.playPath);
+
+        $('.board_overlay').html(html); 
+    }
+
+    else 
+    {
+        var html = '                        \
+            <div id="card_mover" class="format_card" style="position: relative;">   \
+                <div id="mover_flip">       \
+                    <img id="moverFront_image" class="format_card" src="{0}"/>      \
+                    <img id="moverBack_image"  class="format_card" src="{1}"/>      \
+                </div>                      \
+            </div>'.format(CARDBACK_PATH, p_gameData.playPath);
+
+        $('.board_overlay').html(html);
+
+        $('#mover_flip').flip({
+            'trigger': 'manual',
+            'speed': duration -200,    
+            'front': '#moverFront_image',
+            'back': '#moverBack_image'
+        });
+    }
+
+    $('#card_mover').css('left', '{0}px'.format(card_pos.x));
+    $('#card_mover').css('top', '{0}px'.format(card_pos.y));
+
+    $( '#side{0}_overlay'.format(p_gameData.playerTurn) ).hide();
+    $( '#side{0}_overlay'.format(p_gameData.playerTurn) ).empty();
+
+
+    // launch animations
+
+    if (p_gameData.phase == 'spell')
+        BATTLE_TIMER.stop(); 
+
+
+    card_jq.remove();
+
+    SmallerHandAnimation(p_gameData, []);
+
+    if (p_gameData.playerTurn == 2)
+    {
+        setTimeout( function() {
+            // must be in time out to flip slowly
+            // is the flip initialized asynchronously ?
+            $('#mover_flip').flip('toggle');
+        }, 100);
+    }
+
+    var anim_intr = setInterval(PickAnimStep, duration / noSteps);
+
+    function PickAnimStep()
+    {    
+        $('#card_mover').css('left', '{0}px'.format(card_pos.x));
+        $('#card_mover').css('top',  '{0}px'.format(card_pos.y));
+
+        card_pos.x += incr_pos.x;
+        card_pos.y += incr_pos.y;
+
+        cStep++;
+
+        if (cStep > noSteps)
+        {
+            clearInterval(anim_intr);  
+
+            AnimToBattle();
+        }
+    }
+
+    function AnimToBattle()
+    {    
+        var noSteps = 30;
+        var duration = 800;
+        var cStep = 0;
+
+        var target_jq = $( '#battle_primary' );
+        var target_pos = { 'x': target_jq.offset().left - overlay_jq.offset().left -12,
+                           'y': target_jq.offset().top  - overlay_jq.offset().top +6  };
+
+        var incr_pos = { 'x': (target_pos.x - card_pos.x) / noSteps, 
+                         'y': (target_pos.y - card_pos.y) / noSteps }; 
+        
+        var anim_intr = setInterval(BattleAnimStep, duration / noSteps);
+
+        function BattleAnimStep()
+        {    
+            $('#card_mover').css('left', '{0}px'.format(card_pos.x));
+            $('#card_mover').css('top', '{0}px'.format(card_pos.y));
+
+            card_pos.x += incr_pos.x;
+            card_pos.y += incr_pos.y;
+
+            cStep++;
+
+            if (cStep > noSteps)
+            {
+                clearInterval(anim_intr);  
+
+                $('#battle_primary').attr('src', p_gameData.playPath);
+                $('#battle_primary').css('visibility', 'visible');
+                $('.board_overlay').empty();        
+
+                if (p_funcChain)
+                {
+                    var delegate = p_funcChain.shift();
+                    delegate(p_gameData, p_funcChain);
+                }
+            }
+        }
+    }
+}
+
+
+function AnimateDefense(p_gameData, p_funcChain)
+{
+
+
+    var stepsA = 60;
+    var stepsB = 40;
+    var durationA = 1200;
+    var durationB = 800;
+
+
+}
+
+
+
+
+function DisplayResolution(p_gameData, p_funcChain)
+{
+    // display the resolution box
+
+    $('.log_table').hide(200);
+    $('.log_overlay').show(200);
+
+
+    // defending player resolution
+
+    var defEffects = p_gameData.totalEffects.defender;
+
+    $('#defending_label').text( "Defending: {0}".format(p_gameData.defName) );
+
+    if (p_gameData.phase == 'attack')
+    {
+        $('#defender_table').show();
+        $('#defDMG_label').text( "{0} LP".format(defEffects[0].total) );
+        $('#defDmg1_label').text( "Attack {0}".format(defEffects[0].attack) );
+    }
+    else 
+    {
+        $('#defender_table').hide();
+    }
+
+    for (var idx = 1; idx <= 2; idx++)
+    {
+        if (defEffects.length < idx +1)
+            efxText = "";
+
+        else if (defEffects[idx].type == 'heal')
+            efxText = "Heal {0}".format(defEffects[idx].amount);
+
+        else if (defEffects[idx].type == 'draw')
+            efxText = "Draw {0} card".format(defEffects[idx].amount);
+
+        else 
+            efxText = "Unknown: {0}".format(defEffects[idx].type);
+
+        $( '#defFx{0}_label'.format(idx) ).text(efxText);
+    }
+
+
+    // attacking player resolution
+
+    var attEffects = p_gameData.totalEffects.attacker;
+
+    $('#attacking_label').text( "Attacking: {0}".format(p_gameData.attName) );
+
+    if (p_gameData.phase == 'attack')
+    {
+        $('#attacker_table').show();
+        $('#attDMG_label').text( "{0} LP".format(attEffects[0].total) );
+        $('#attDmg1_label').text( "Attack {0}".format(attEffects[0].attack) );
+    }
+    else 
+    {
+        $('#attacker_table').hide();
+    }
+
+    for (var idx = 1; idx <= 2; idx++)
+    {
+        if (attEffects.length < idx +1)
+            efxText = "";
+
+        else if (attEffects[idx].type == 'heal')
+            efxText = "Heal {0}".format(attEffects[idx].amount);
+
+        else if (attEffects[idx].type == 'draw')
+            efxText = "Draw {0} card".format(attEffects[idx].amount);
+
+        else 
+            efxText = "Unknown: {0}".format(attEffects[idx].type);
+
+        $( '#attFx{0}_label'.format(idx) ).text(efxText);
+    }
+
+
+    // continue function chain 
+
+    setTimeout(function() {
+
+        var delegate = p_funcChain.shift();
+        delegate(p_gameData, p_funcChain);
+
+    }, 4000);
+}
+
+
+function AnimateHitPoints(p_gameData, p_funcChain) 
+{
+    var noSteps = 30;
+    var duration = 2000;
+    var cStep = 0;
+
+    // create end points
+
+    if (p_gameData.playerTurn == 1)
+    {
+        var pl1Life = p_gameData.oldLifeAtt;
+        var pl1NewLife = p_gameData.newLifeAtt;
+        var pl1Incr = (p_gameData.newLifeAtt - p_gameData.oldLifeAtt) / noSteps;  
+        var pl2Life = p_gameData.oldLifeDef;
+        var pl2NewLife = p_gameData.newLifeDef;
+        var pl2Incr = (p_gameData.newLifeDef - p_gameData.oldLifeDef) / noSteps;  
+    }
+
+    else
+    {
+        var pl1Life = p_gameData.oldLifeDef;
+        var pl1NewLife = p_gameData.newLifeDef;
+        var pl1Incr = (p_gameData.newLifeDef - p_gameData.oldLifeDef) / noSteps;  
+        var pl2Life = p_gameData.oldLifeAtt;
+        var pl2NewLife = p_gameData.newLifeAtt;
+        var pl2Incr = (p_gameData.newLifeAtt - p_gameData.oldLifeAtt) / noSteps;  
+    }
+
+    // launch animation 
+
+    if (pl1NewLife < pl1Life)
+        $('#currlp1_text').addClass('lowerLife');
+
+    else if (pl1NewLife > pl1Life)
+        $('#currlp1_text').addClass('higherLife');
+
+    if (pl2NewLife < pl2Life)
+        $('#currlp2_text').addClass('lowerLife');
+
+    else if (pl2NewLife > pl2Life)
+        $('#currlp2_text').addClass('higherLife');
+
+    var anim_intr = setInterval(AnimStep, duration / noSteps);
+
+    function AnimStep()
+    {    
+        $('#currlp1_text').text(parseInt(pl1Life));
+        $('#currlp2_text').text(parseInt(pl2Life));
+
+        pl1Life += pl1Incr;
+        pl2Life += pl2Incr;
+
+        cStep++;
+
+        if (cStep >= noSteps)
+        {
+            clearInterval(anim_intr);  
+
+            $('#currlp1_text').removeClass('lowerLife');
+            $('#currlp1_text').removeClass('higherLife');
+            $('#currlp2_text').removeClass('lowerLife');
+            $('#currlp2_text').removeClass('higherLife');
+
+            if (p_funcChain.length > 0)
+            {
+                var delegate = p_funcChain.shift();
+                delegate(p_gameData, p_funcChain);
+            }
+        }
+    }
+}
+
+
+function FinishResolution(p_gameData, p_funcChain) 
+{
+    var noSteps = 20;
+    var duration = 800;
+    var cStep = 0;
+
+    var overlay_jq = $( '.board_overlay' );      
+
+    // move cards played to discard 
+
+    var primary_jq = $( '#battle_primary' );     
+    var card_pos = { 'x': primary_jq.offset().left - overlay_jq.offset().left,
+                     'y': primary_jq.offset().top - overlay_jq.offset().top }; 
+
+    var discPrim_jq = $( '#discard{0}_image'.format(p_gameData.playerTurn) );
+    var discPrim_pos = { 'x': discPrim_jq.offset().left - overlay_jq.offset().left,
+                         'y': discPrim_jq.offset().top  - overlay_jq.offset().top }; 
+
+    var incr_pos = { 'x': (discPrim_pos.x - card_pos.x) / noSteps, 
+                     'y': (discPrim_pos.y - card_pos.y) / noSteps }; 
+
+    var defense_jq = $( '#battle_primDef' );     
+    var playerD = ( p_gameData.playerTurn == 1 ? 2 : 1 );    
+    var discDef_jq = $( '#discard{0}_image'.format(playerD) );
+
+    var primPath = primary_jq.attr('src');
+
+    var html = '                    \
+        <div id="card_mover" class="format_card" style="position: relative;">   \
+                <img class="format_card" src="{0}"/>                \
+        </div>'.format(primPath);
+
+    $('.board_overlay').html(html);        
+
+    $('#card_mover').css('left', '{0}px'.format(card_pos.x));
+    $('#card_mover').css('top', '{0}px'.format(card_pos.y));
+
+    $('#card_mover').css('left', '{0}px'.format(discPrim_pos.x));
+    $('#card_mover').css('top', '{0}px'.format(discPrim_pos.y));
+
+    // hide the battle resolution log
+
+    $('.log_table').show(200);
+    $('.log_overlay').hide(200);
+
+    // launch animation 
+
+    primary_jq.attr('src', NOCARD_PATH);
+    primary_jq.css('visibility', 'hidden');
+
+    defense_jq.attr('src', NOCARD_PATH);
+    defense_jq.css('visibility', 'hidden');
+
+
+    var anim_intr = setInterval(AnimStep, duration / noSteps);
+
+    function AnimStep()
+    {    
+        $('#card_mover').css('left', '{0}px'.format(card_pos.x));
+        $('#card_mover').css('top',  '{0}px'.format(card_pos.y));
+
+        card_pos.x += incr_pos.x;  
+        card_pos.y += incr_pos.y;
+
+        cStep++;
+
+        if (cStep > noSteps)
+        {
+            clearInterval(anim_intr);  
+
+            // add to discard piles
+
+            discPrim_jq.attr('src', primPath);
+
+            overlay_jq.empty();    
+
+            // on enemy resolution, also advance the phase
+
+            if (p_funcChain.length > 0)
+            {
+                var delegate = p_funcChain.shift();
+                delegate(p_gameData, p_funcChain);
+            }
+  
+        }
+    }
+}
+
+
+/* EVENT HANDLERS */
+
+
+// attach events to hand card
+function AttachHandHover(p_image)
+{
+    $(p_image).hover(HandlerIn, HandlerOut);
+
+    function HandlerIn() 
+    {
+        // exit if there is an animation happening on the board
+
+        if ( Object.keys( $('#card_mover') ).length > 0 )
+            return;
+
+        // display the hovered card
+
+        var htmlID = $(this).attr('id');       
+        var id = htmlID.match(/\d+/)[0];     
+        var side = id[0];
+
+        var source = $(this).attr('src');      
+
+        var html = '<img id="overlay_hand" class="sideOvrl_image {0}" src="{1}"/>';     
+        html = html.format( ( $(p_image).hasClass('card_playable') ? 'sideOvrl_playable' : '' ), source);   
+
+        $( '#side{0}_overlay'.format(side) ).empty();
+        $( '#side{0}_overlay'.format(side) ).append(html);
+        $( '#side{0}_overlay'.format(side) ).show();
+    }
+
+    function HandlerOut() 
+    {
+        var htmlID = $(this).attr('id');        
+        var id = htmlID.match(/\d+/)[0];       
+        var side = id[0];
+
+        $( '#side{0}_overlay'.format(side) ).hide();
+        $( '#side{0}_overlay'.format(side) ).empty();
+    }
+}
+
+
+function AttachHandClick(p_image)
+{
+    $(p_image).click(function() {
+
+        var isPlayable = $(p_image).hasClass('card_playable');
+
+        if (isPlayable)
+        {
+            if ( $('#attack1_phase').hasClass('phase_highlight') )
+                ClickAttack(p_image);
+
+            else if ( $('#spell1_phase').hasClass('phase_highlight') )
+                ClickSpell(p_image);
+        }
+        else
+        {
+            cl('card is not playable');
+        }
+
+    });
+}
+
+
+// respond to websocket channel message
+function HandleGameMessage(p_data)
+{
+    var chanInfo = $.parseJSON(p_data);           cl(chanInfo);
+    var gameData = chanInfo.data;
+    
+    // any time the user first joins a game
+
+    if (chanInfo.type == "JOIN_GAME")
+    {
+        if ( gameData.phase != 'setup' )
+        {
+            AdvancePhase(gameData);
+        }
+    }
+
+    // any time a phase advances by time out
+
+    else if (chanInfo.type == "NEXT_PHASE")
+    {
+        if (gameData.oldPhase == "setup")
+        {
+            $('#setup_dialog').dialog('close');
+            $('.board_overlay').css('background', '');
+            $('#side1_overlay').css('background', '');
+
+            setTimeout(function() {
+                $('.board_overlay').css('background', 'rgba(0,0,0, 0)');
+            }, 1000);
+        }
+
+        $('#round_label').text( "Round: {0}".format(gameData.round) );
+
+        AdvancePhase(gameData);
+    }
+
+    // anytime a draw phase advances by time out
+    // there's a mandatory draw of the card
+
+    else if (chanInfo.type == "DRAW_NEXT")
+    {
+        if (gameData.playerTurn == 1)
+        {
+            $('#draw1_group').tooltip('disable');
+            $('#draw1_group').off('click');
+            $('#draw1_group').css('cursor', 'default');
+        }
+
+        var funcChain = [AnimateDraw, AdvancePhase];
+        var delegate = funcChain.shift();
+        delegate(gameData, funcChain);
+    }
+
+    // enemy's response to an user attack
+
+    else if (chanInfo.type == "ENEMY_DEFENSE")
+    {
+        if ( !gameData.defenseCard )
+        {
+
+            var playerT = ( gameData.playerTurn == 1 ? 2 : 1 );
+            var phase = '#attack{0}_phase'.format(playerT);      
+            FlashTooltip(phase, "Pass on Defense", 'bottom');
+            $(phase).tooltip('open');
+
+            setTimeout(function() {
+                $(phase).tooltip('destroy');
+            }, 2000);
+
+            $('#battle_primDef').attr('src', NOCARD_PATH);
+            $('#battle_primDef').css('visibility', 'visible');
+
+            EndDefensePhase(gameData);
+        }
+
+        else
+        {
+            AnimateDefense(gameData);
+        }
+    }
+
+    // enemy plays an attack card
+
+    else if (chanInfo.type == "ENEMY_ATTACK")
+    {
+        if (gameData.battlePos == -1)
+        {
+            var phase = '#attack2_phase';      
+            FlashTooltip(phase, "Pass on Attack", 'bottom');
+            $(phase).tooltip('open');
+
+            setTimeout(function() {
+                $(phase).tooltip('destroy');
+                AdvancePhase(gameData)
+            }, 2000);
+        }
+
+        else
+        {
+            var funcChain = [AnimateBattle, ShowDefensePhase];
+            var delegate = funcChain.shift();
+            delegate(gameData, funcChain);
+        }
+    }
+
+    // user doesn't defend, so auto skip phase
+
+    else if (chanInfo.type == "USER_DEFEND_EXPIRE")
+    {
+        EndDefensePhase(gameData);
+    }
+
+    // enemy plays a spell card
+
+    else if (chanInfo.type == "ENEMY_SPELL")
+    {
+        if (gameData.battlePos == -1)
+        {
+            var phase = '#spell2_phase';      
+            FlashTooltip(phase, "Pass on Spell", 'bottom');
+            $(phase).tooltip('open');
+
+            setTimeout(function() {
+                $(phase).tooltip('destroy');
+                AdvancePhase(gameData)
+            }, 2000);
+        }
+
+        else
+        {
+            var funcChain = [AnimateBattle];
+            var delegate = funcChain.shift();
+            delegate(gameData, funcChain);
+        }
+    }
+
+    // a battle is finished
+
+    else if (chanInfo.type == "BATTLE_RESOLVE")
+    {
+        var funcChain = [DisplayResolution, AnimateHitPoints, FinishResolution];
+        var delegate = funcChain.shift();
+        delegate(gameData, funcChain);
+    }
+
+    // error: the channel info type is not implemented
+
+    else
+    {
+        ErrorToStatus(p_data, "HandleGameMessage()", '#board_status');
+    }
+}
+
+
+// ajax call to draw and go to next phase
+function ClickDraw()
+{    
+    // exhaust the button to block further clicks
+
+    $('#draw1_phase').tooltip('destroy');
+    $('#draw1_phase').off('click');
+
+    $.ajax({
+        type: 'POST',
+        url: '{% url "campaign:campaign_jx" "draw_next" %}',
+        success: function(p_data) {          cl(p_data)
+
+            var funcChain = [AnimateDraw, AdvancePhase];
+            var delegate = funcChain.shift();
+            delegate(p_data, funcChain);
+
+        }, 
+        error: function(p_err) {
+            ErrorToStatus(p_err.responseText, "ClickDraw()", '#board_status');
+        },
+    });
+}
+
+
+function ClickSkip()
+{    
+    // exhaust the button to block further clicks
+
+    if( $('#attack1_phase').data('ui-tooltip') )
+    {
+        $('#attack1_phase').tooltip('destroy');
+        $('#attack1_phase').off('click');
+    }
+
+    else
+    {
+        $('#spell1_phase').tooltip('destroy');
+        $('#spell1_phase').off('click');
+    }
+
+    $.ajax({
+        type: 'POST',
+        url: '{% url "campaign:campaign_jx" "skip_phase" %}',
+        success: function(p_data) {  
+
+            AdvancePhase(p_data);
+            
+        }, 
+        error: function(p_err) {
+            ErrorToStatus(p_err.responseText, "ClickSkip()", '#board_status');
+        },
+    });
+}
+
+
+function ClickAttack(p_image)
+{    
+    // exhaust the button to block further clicks
+
+    $('#attack1_phase').tooltip('destroy');
+    $('#attack1_phase').off('click');
+
+    var card = $(p_image).attr('cardName');
+
+    $.ajax({
+        type: 'POST',
+        url: '{% url "campaign:campaign_jx" "user_attack" %}',
+        data: {'card': card},
+        success: function(p_data) {          cl(p_data)
+
+            var funcChain = [AnimateBattle, ShowDefensePhase];
+            var delegate = funcChain.shift();
+            delegate(p_data, funcChain);
+
+        }, 
+        error: function(p_err) {
+            ErrorToStatus(p_err.responseText, "ClickAttack()", '#board_status');
+        },
+    });
+}
+
+
+function ClickSpell(p_image)
+{    
+    // exhaust the button to block further clicks
+
+    $('#spell1_phase').tooltip('destroy');
+    $('#spell1_phase').off('click');
+
+    var card = $(p_image).attr('cardName');
+
+    $.ajax({
+        type: 'POST',
+        url: '{% url "campaign:campaign_jx" "user_spell" %}',
+        data: {'card': card},
+        success: function(p_data) {          cl(p_data);
+
+            var funcChain = [AnimateBattle];      
+            var delegate = funcChain.shift();
+            delegate(p_data, funcChain);
+
+        }, 
+        error: function(p_err) {
+            ErrorToStatus(p_err.responseText, "ClickSpell()", '#board_status');
+        },
+    });
+}
+
+
+function ClickSkipDefend()
+{    
+    // exhaust the button to block further clicks
+
+    $('#attack1_phase').css('cursor', 'default');
+    $('#attack1_phase').tooltip('destroy');
+    $('#attack1_phase').off('click');
+
+    $.ajax({
+        type: 'POST',
+        url: '{% url "campaign:campaign_jx" "user_skipDefend" %}',
+        success: function(p_data) {          //cl(p_data);
+
+            EndDefensePhase(p_data);
+
+        }, 
+        error: function(p_err) {
+            ErrorToStatus(p_err.responseText, "ClickSkipDefend()", '#board_status');
+        },
+    });
+}
+
+
+</script>
+
+
+{% endblock content %}
+
+
+
+
+

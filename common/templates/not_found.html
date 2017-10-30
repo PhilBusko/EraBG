@@ -1,0 +1,41 @@
+
+{% extends "base_nav.html" %}
+{% load utility_ttags %}
+{% load staticfiles %}
+
+{% block content %}
+
+
+<div class="row">
+    
+    <div class="format_center" style="padding-top: 60px; width: 100%;">
+        <div class="inner_margin1 frame_header format_center" style="">
+            <span class="font_section">Page Not Found</span>
+        </div>
+    </div>
+
+</div>
+
+
+<script>
+
+
+$(document).ready(function()
+{      
+    $('body').css('cursor', 'wait');
+
+    $('#menu_currency').hide();
+
+    //
+    $('body').css('cursor', 'default');
+});
+
+
+</script>
+
+{% endblock content %}
+
+
+
+
+

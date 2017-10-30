@@ -1,0 +1,269 @@
+
+{% extends "base_nav.html" %}
+{% load utility_ttags %}
+{% load staticfiles %}
+
+{% comment %}
+{% endcomment %}
+
+{% block content %}
+
+
+<div id="title_section" class="row">
+    <div class="col-xs-12 format_center">
+        <div class="inner_margin1 frame_header">
+            <span class="font_title">Kingdom Data</span>
+        </div>
+    </div>
+</div>
+
+
+<div id="loadTables_section" class="row">
+    
+    <div class="col-xs-12">
+        <div class="display_table">
+            <div class="display_row">
+                <div class="display_cellM">
+                    <div class="inner_margin1 frame_header" style="margin-right: 0px;">
+                        <span class="font_section">Load Data</span>
+                    </div>
+                </div>
+                <div class="display_cellT" style="width: 100%;">
+                    <div class="display_block frame_header format_separator">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="display: none;">{% ctrl_status "kingdoms" %}</div>
+    </div>
+    
+    <div class="col-xs-12 col-sm-6 col-xxl-4">
+        <div class="display_block inner_margin1 outer_padding2 frame_entry">
+            {% ctrl_label "load" "Load Tables" "font_strong" %}
+            <div class="display_table">
+                <div class="display_row">
+                    <div class="display_cellT format_center" style="min-width: 200px;">
+                        <br>
+                        {% ctrl_button "kingdoms" "Load Kingdoms" %}
+                        <br><br>
+                        {% ctrl_button "cards" "Load Cards" %}
+                        <br><br>
+                        {% ctrl_button "reset" "Clear Tables" %} 
+                    </div>
+                    <div class="display_cellT">
+                        {% ctrl_table "kingdomCards" %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-xs-12">
+        <div class="display_block inner_margin1 outer_padding2 frame_entry">
+            {% ctrl_label "report" "Card Report" "font_strong" %}
+            
+            {% ctrl_table "cardReport"  %}
+
+        </div>
+    </div>
+
+</div>
+
+
+<!-- SCRIPTS -->
+
+<script>
+
+$(document).ready(function()
+{      
+    $('body').css('cursor', 'wait');
+    
+    
+    var jTable = $.parseJSON('{{ kingdomCards | escapejs }}');      //cl(jTable);
+    DisplayKingdoms(jTable);
+    
+    $('#kingdoms_button').click(function() {
+        ImportKingdoms();
+    });
+    
+    $('#cards_button').click(function() {
+        ImportCards();
+    });
+    
+    $('#reset_button').click(function() {
+        ClearTables();
+    });
+    
+
+    var jTable = $.parseJSON('{{ cardReport | escapejs }}');      cl(jTable);
+
+    if (jTable.length != 0)
+    {
+        SetDeluxeReport(jTable);
+    }
+    else
+    {
+        $('#cardReport_table').html("<div style='margin: 4px;'>No report available.</div>");
+    }
+
+
+    $('body').css('cursor', 'default');
+});
+
+
+function DisplayKingdoms(p_kingdoms)
+{
+    if (p_kingdoms.data.length != 0)
+    {
+        var fullT = JSONtoFullTable(p_kingdoms.data);
+        SetDataTable('#kingdomCards_table', fullT, p_kingdoms.colFmt);
+    }
+    else
+    {
+        $('#kingdomCards_table').html("<div style='margin: 4px;'>No kingdoms available.</div>");
+    }
+}
+
+
+function DisableForm()
+{
+    $('#kingdoms_status').parent().parent().hide(); 
+    $('#kingdoms_button').prop('disabled', true);
+    $('#cards_button').prop('disabled', true);
+    $('#reset_button').prop('disabled', true);
+    $('body').css('cursor', 'wait');
+}
+
+
+function EnableForm()
+{
+    $('#kingdoms_button').prop('disabled', false);
+    $('#cards_button').prop('disabled', false);
+    $('#reset_button').prop('disabled', false);
+    $('body').css('cursor', 'default');    
+}
+
+
+// LOAD FUNCTIONS
+
+function ImportKingdoms()
+{
+    DisableForm();
+    
+    $.ajax({
+        type: 'POST',
+        url: '{% url "kingdoms:manager_jx" "import_kingdoms" %}',
+        success: function(p_data) {     //cl(p_data);
+            DisplayKingdoms(p_data);
+        }, 
+        error: function(p_err) {
+            ErrorToStatus(p_err.responseText, "ImportKingdoms()", '#kingdoms_status');
+        },
+        complete: function() {
+            EnableForm();
+        }
+    });
+}
+
+
+function ImportCards()
+{
+    DisableForm();
+    
+    $.ajax({
+        type: 'POST',
+        url: '{% url "kingdoms:manager_jx" "import_cards" %}',
+        success: function(p_data) {     //cl(p_data);
+            DisplayKingdoms(p_data);
+        }, 
+        error: function(p_err) {
+            ErrorToStatus(p_err.responseText, "ImportRaces()", '#kingdoms_status');
+        },
+        complete: function() {
+            EnableForm();
+        }
+    });
+}
+
+
+function ClearTables()
+{
+    DisableForm();
+    
+    $.ajax({
+        type: 'POST',
+        url: '{% url "kingdoms:manager_jx" "clear_tables" %}',
+        success: function(p_data) {     //cl(p_data);
+            DisplayKingdoms(p_data);
+        }, 
+        error: function(p_err) {
+            ErrorToStatus(p_err.responseText, "ClearTables()", '#kingdoms_status');
+        },
+        complete: function() {
+            EnableForm();
+        }
+    });
+}
+
+
+// ANALYSIS FUNCTIONS
+
+
+function SetDeluxeReport(p_report)
+{   
+    var tableId = '#cardReport_table';
+    
+    var table = $(tableId).DataTable( {
+        data: p_report,
+        aoColumns: [
+            {
+                mData: 'kingdom',
+                title: 'Kingdom',
+                sClass: 'format_fixline'
+            },
+            {
+                mData: 'name',
+                title: 'Name',
+                sClass: 'format_fixline'
+            }, 
+            {
+                mData: 'type',
+                title: 'Type',
+                sClass: 'format_center'
+            }, 
+            {
+                mData: 'step1',
+                title: 'Step 1'
+            },
+            {
+                mData: 'step2',
+                title: 'Step 2'
+            },
+            {
+                mData: 'step3',
+                title: 'Step 3'
+            },
+            {
+                mData: 'step4',
+                title: 'Step 4'
+            },
+        ], 
+        bSort: true,
+        scrollCollapse: true,
+        paging: true,
+        pageLength: 20,
+        bFilter: true,
+        bInfo: true,
+        bDestroy: true 
+    } );
+}
+
+
+</script>
+
+{% endblock content %}
+
+
+
+
+
